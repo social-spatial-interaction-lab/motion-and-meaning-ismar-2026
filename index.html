@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion-Tracking Measures in XR-Based Experimental Psychology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@700&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e9eee7; --panel:#f3f6f1; --line:#c3cdbd; --line-strong:#7c8f74;
+  --fg:#252e22; --muted:#5e6d55; --accent:#3c5a45; --accent-fg:#f3f6f1; --tag:#1e5183;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--fg);
+  font-family:"Public Sans",system-ui,sans-serif; font-size:14px;
+  padding-inline:18px; padding-block:20px;
+}
+.wrap{position:relative}
+
+header{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:14px; flex-wrap:wrap}
+h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px}
+.sub{color:var(--muted); font-size:13px; margin:0}
+.detail-toggle{
+  background:none; border:none; padding:0; margin-left:6px; font:inherit; font-size:12px;
+  color:var(--tag); text-decoration:underline; text-underline-offset:2px; cursor:pointer;
+}
+.sub-detail{
+  margin-top:10px; padding:12px 14px; border:1px solid var(--line); border-radius:6px;
+  background:var(--panel); font-size:12.5px; max-width:640px;
+}
+.sub-detail .detail-note{color:var(--muted); font-style:italic; margin:0 0 10px; font-size:11.5px}
+.sub-detail dt{font-weight:700; margin-top:8px}
+.sub-detail dt:first-child{margin-top:0}
+.sub-detail dd{margin:2px 0 0; color:var(--fg)}
+
+.toolbar{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap}
+.omnibar{
+  flex:1 1 320px; max-width:520px; border:1px solid var(--line-strong); background:var(--panel);
+  color:var(--fg); padding:9px 14px; font:inherit; font-size:13.5px; border-radius:20px;
+}
+/* while loading: muted text measured only 3.37:1 against the progress
+   fill (fails WCAG AA's 4.5:1) -- fg clears 8.57:1 against the fill and
+   12.91:1 against the unfilled background, so it's legible either way */
+.omnibar:disabled{color:var(--fg); cursor:not-allowed}
+.omnibar:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.btn{
+  border:1px solid var(--line-strong); background:var(--panel); color:var(--fg);
+  padding:7px 13px; font:inherit; font-weight:600; font-size:12.5px; cursor:pointer; border-radius:6px;
+}
+.btn.primary{background:var(--accent); color:var(--accent-fg); border-color:var(--accent)}
+.btn:hover{filter:brightness(0.97)}
+.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+.table-scroll{overflow-x:auto; border:1px solid var(--line); background:var(--panel); border-radius:8px; max-height:80vh; overflow-y:auto}
+table{border-collapse:collapse; width:max-content; min-width:100%; font-size:13px; white-space:nowrap}
+th,td{border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top}
+th{font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:var(--panel); position:sticky; top:0; z-index:1; min-width:150px; white-space:nowrap}
+/* table-layout:auto (the default) sizes each column from its own content at
+   render time, between a 150px floor (short values still get a presentable
+   landscape block, not a cramped sliver) and a 300px ceiling (beyond that,
+   wrap to a second/third line rather than stretching the row wider) */
+td{white-space:normal; max-width:300px}
+td.num,.tag-color{color:var(--tag); font-weight:600}
+
+.col-entity, th.col-entity{position:sticky; left:0; background:var(--panel); z-index:2; font-weight:700; max-width:260px; white-space:normal}
+th.col-entity{z-index:3}
+.col-entity a{color:var(--fg); text-decoration:none; border-bottom:1px dotted var(--line-strong)}
+.col-entity .meta{display:block; color:var(--muted); font-weight:400; font-size:11.5px; margin-top:2px}
+
+.chip{
+  display:inline-block; border:1px solid var(--line-strong); background:var(--bg);
+  color:var(--muted); font-weight:600; font-size:10.5px; padding:3px 9px; margin:2px 3px 2px 0;
+  border-radius:20px; cursor:pointer; user-select:none;
+}
+.chip:hover{background:var(--line)}
+.chip.header-chip{background:var(--accent); color:var(--accent-fg); border-color:var(--accent)}
+.chip.header-chip:hover{filter:brightness(1.08)}
+
+.status{font-size:12.5px; color:var(--muted); margin:10px 0 0}
+footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
+
+/* ---- omnibar dropdown (search isn't wired yet -- see STUB_RESULTS) ---- */
+.omni-wrap{position:relative; flex:1 1 320px; max-width:520px}
+.omni-wrap .omnibar{width:100%; max-width:none; padding-left:36px}
+.omni-icon{
+  position:absolute; left:13px; top:50%; transform:translateY(-50%);
+  width:15px; height:15px; color:var(--muted); pointer-events:none; z-index:2;
+}
+.omni-icon svg{display:block; width:100%; height:100%}
+/* fills left-to-right behind the (transparent-background-while-loading) input,
+   so the omnibar itself reads as a 0-100% progress bar during the model download */
+.omni-progress{
+  position:absolute; inset:0; border-radius:20px; overflow:hidden; pointer-events:none;
+}
+.omni-progress .fill{
+  height:100%; width:0%; background:var(--line); transition:width .15s linear;
+}
+.omnibar.loading{background:transparent; position:relative; z-index:1}
+.dropdown{
+  position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:10;
+  border:1px solid var(--line-strong); border-radius:10px; background:var(--panel);
+  box-shadow:0 4px 14px rgba(0,0,0,.12); max-height:60vh; overflow-y:auto;
+}
+.tagchip{
+  flex:0 0 auto; white-space:nowrap; border:1px solid var(--line-strong);
+  font-size:10px; padding:2px 8px; border-radius:10px; color:var(--muted);
+}
+.eg{padding:9px 12px 10px; cursor:pointer}
+.eg:hover{background:var(--bg)}
+.eg-head{display:flex; align-items:center; gap:7px; font-size:13px; flex-wrap:wrap}
+.eg-head .name{font-weight:700; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.eg-hit{display:flex; align-items:baseline; gap:6px; margin-top:5px; padding-left:14px; font-size:11.5px; color:var(--muted); flex-wrap:wrap}
+.eg-hit .snip{color:var(--fg); min-width:0}
+.attr-divider{border:none; border-top:1px solid var(--line); margin:7px 16px 0}
+.entity-divider{border:none; border-top:1px solid var(--line-strong); margin:0}
+.eg-solo .lead{font-size:13px; color:var(--fg)}
+.eg-solo .crumb{display:flex; align-items:center; gap:7px; margin-top:4px; padding-left:14px}
+.eg-solo .crumb .mid{flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11.5px; color:var(--muted)}
+.dd-footer{padding:8px 12px; font-size:11.5px; text-decoration:underline; color:var(--fg); cursor:pointer; border-top:1px solid var(--line)}
+.dd-empty{padding:14px 12px; font-size:12px; color:var(--muted)}
+
+/* ---- layout + paper detail panel (option C: permanent split, table stays usable) ---- */
+.layout{display:flex; gap:14px; align-items:flex-start}
+.layout .table-scroll{flex:1 1 auto; min-width:0}
+.col-entity{cursor:pointer}
+.col-entity:hover{text-decoration:underline}
+.detail-panel{
+  flex:0 0 420px; border:1px solid var(--line-strong); background:var(--panel); border-radius:8px;
+  padding:16px; max-height:80vh; overflow-y:auto; position:sticky; top:12px;
+}
+.detail-panel .close{float:right; cursor:pointer; color:var(--muted); font-size:14px}
+.detail-panel h2{font-family:"Vollkorn",serif; font-size:17px; margin:0 24px 10px 0}
+.detail-field{margin-top:10px}
+.detail-field .flabel{font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted)}
+.detail-field .fvalue{margin-top:2px; font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Motion-Tracking Measures in XR-Based Experimental Psychology</h1>
+      <p class="sub">A public, editable literature review of motion-tracking studies in VR/AR &mdash; open data, open contributions.
+        <button class="detail-toggle" id="detail-toggle" aria-expanded="false">What counts as "in scope"?</button>
+      </p>
+      <div class="sub-detail" id="sub-detail" hidden></div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="omni-wrap">
+      <div class="omni-progress" id="omni-progress" hidden><div class="fill" id="omni-progress-fill"></div></div>
+      <span class="omni-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.2" y2="16.2"></line>
+        </svg>
+      </span>
+      <input class="omnibar" id="omnibar" type="search" placeholder="Search by title, author, or topic&hellip;" autocomplete="off">
+      <div class="dropdown" id="dropdown" hidden></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="table-scroll">
+      <table id="review-table"><tr><td style="padding:20px">Loading data/statements.csv&hellip;</td></tr></table>
+    </div>
+    <div class="detail-panel" id="detail-panel" hidden></div>
+  </div>
+  <p class="status" id="status"></p>
+
+  <footer>Data: <code>data/statements.csv</code> &mdash; SAEV-format statements, open for anyone to propose a change.</footer>
+</div>
+
+<script>
+// ---------- minimal RFC4180 CSV parser (handles quoted fields with commas/newlines) ----------
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = "", inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i+1] === '"') { field += '"'; i++; }
+        else inQuotes = false;
+      } else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ',') { row.push(field); field = ""; }
+      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ""; }
+      else if (c === '\r') { /* skip */ }
+      else field += c;
+    }
+  }
+  if (field !== "" || row.length) { row.push(field); rows.push(row); }
+  const header = rows.shift();
+  return rows.filter(r => r.length === header.length).map(r => {
+    const o = {};
+    header.forEach((h, i) => o[h] = r[i]);
+    return o;
+  });
+}
+
+// ---------- SAEV well-known UUIDs ----------
+const THE_NAME = "acf5cebb-8d80-45ad-9a1f-a3dd48682ef6";
+const A_COMPONENT = "90c2b9bb-ff6b-4f84-a29b-7b9e8dcfe04a";
+const RESEARCH_PAPER = "efe2d554-61f9-4931-9514-7a3bc2bc0d17";
+
+// default-visible columns (never collapsed to a chip)
+const DEFAULT_COLS = [
+  { name: "anAuthor", label: "Author" },
+  { name: "thePublicationDate", label: "Year" },
+  { name: "theSampleParticipants", label: "Sample / Participants" },
+];
+
+// chip groups -- order matters for display
+const CHIP_GROUPS = [
+  { chip: "Construct", fields: ["anABCDomain", "thePsychConstruct"] },
+  { chip: "Apparatus", fields: ["theTrackingSetup", "aTrackedSegment", "theSamplingRate"] },
+  { chip: "Linkage", fields: ["aMotionFeature", "aTransformationApproach", "theAnalysisMethod"] },
+  { chip: "Duration", fields: ["theDuration"] },
+  { chip: "Key Analysis", fields: ["theKeyAnalysis"] },
+];
+const FIELD_TO_CHIP = {};
+CHIP_GROUPS.forEach(g => g.fields.forEach(f => FIELD_TO_CHIP[f] = g.chip));
+
+const FIELD_LABELS = {
+  anABCDomain: "ABC Domain", thePsychConstruct: "Psychological Construct",
+  theTrackingSetup: "Tracking Setup", aTrackedSegment: "Tracked Body Segments",
+  theSamplingRate: "Sampling Rate (Hz)", aMotionFeature: "Motion Features",
+  aTransformationApproach: "Transformation Approach", theAnalysisMethod: "Analysis Method",
+  theDuration: "Experiment Duration", theKeyAnalysis: "Key Analysis",
+};
+
+const expanded = new Set(); // which chips are currently expanded into real columns
+let currentPapers = [];
+let paperEntities = new Set(); // populated in main(); used by search to filter to papers only
+let entityNames = {};          // entity -> theName, for ANY entity (papers and schema items alike)
+
+function render() { renderTable(currentPapers); }
+
+async function main() {
+  const statusEl = document.getElementById("status");
+  let text;
+  try {
+    const res = await fetch("data/statements.csv");
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    text = await res.text();
+  } catch (err) {
+    document.getElementById("review-table").innerHTML =
+      '<tr><td style="padding:20px">Could not load data/statements.csv (' + err + '). Serve this folder over HTTP, not file://.</td></tr>';
+    return;
+  }
+  const rows = parseCSV(text);
+  statusEl.textContent = rows.length + " SAEV rows loaded.";
+
+  // which entities are tagged ResearchPaper
+  paperEntities = new Set(
+    rows.filter(r => r.attribute === A_COMPONENT && r.value === RESEARCH_PAPER).map(r => r.entity)
+  );
+  rows.forEach(r => { if (r.attribute_name === "theName") entityNames[r.entity] = r.value; });
+
+  // pivot: entity -> attribute_name -> [values]
+  const byEntity = {};
+  for (const r of rows) {
+    if (!paperEntities.has(r.entity)) continue;
+    if (!byEntity[r.entity]) byEntity[r.entity] = {};
+    if (!byEntity[r.entity][r.attribute_name]) byEntity[r.entity][r.attribute_name] = [];
+    byEntity[r.entity][r.attribute_name].push(r.value);
+  }
+
+  const papers = Object.keys(byEntity).map(entity => ({
+    entity,
+    title: (byEntity[entity].theName || ["(untitled)"])[0],
+    fields: byEntity[entity],
+  })).sort((a, b) => a.title.localeCompare(b.title));
+
+  currentPapers = papers;
+  render();
+  renderScopeDetail(rows);
+  handleHashChange(); // support a deep link straight to #paper/<entity> on initial load
+  initSearch(); // fire-and-forget: table is already fully usable, search loads in the background
+}
+
+// pulls the three criteria-cluster components' own theName/theIntention straight out
+// of the CSV -- these are the draft definitions Mark and Rushad still need to review,
+// not final paper-sourced copy, so label it as such rather than presenting it as official
+function renderScopeDetail(rows) {
+  const byEntityName = {};
+  for (const r of rows) {
+    if (r.attribute_name === "theName") byEntityName[r.entity] = r.value;
+  }
+  const wanted = ["Construct", "Apparatus", "Linkage"];
+  const intentionByName = {};
+  for (const r of rows) {
+    if (r.attribute_name !== "theIntention") continue;
+    const name = byEntityName[r.entity];
+    if (wanted.includes(name)) intentionByName[name] = r.value;
+  }
+  const el = document.getElementById("sub-detail");
+  if (!wanted.some(n => intentionByName[n])) { el.innerHTML = "<p>(criteria breakdown not available)</p>"; return; }
+  let html = '<p class="detail-note">Draft criteria definitions, pending review &mdash; not yet the official paper text.</p><dl>';
+  wanted.forEach(name => {
+    if (!intentionByName[name]) return;
+    html += `<dt>${esc(name)}</dt><dd>${esc(intentionByName[name])}</dd>`;
+  });
+  html += "</dl>";
+  el.innerHTML = html;
+}
+
+function esc(s) { return (s ?? "").toString().replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function joinVals(vals) { return vals ? vals.join("; ") : ""; }
+
+function renderTable(papers) {
+  const el = document.getElementById("review-table");
+  const collapsedChips = CHIP_GROUPS.filter(g => !expanded.has(g.chip));
+  const expandedGroups = CHIP_GROUPS.filter(g => expanded.has(g.chip));
+
+  let thead = "<tr><th class='col-entity'>Paper</th>";
+  DEFAULT_COLS.forEach(c => thead += `<th>${esc(c.label)}</th>`);
+  thead += "<th>Columns</th>";
+  expandedGroups.forEach(g => {
+    thead += `<th colspan="${g.fields.length}"><span class="chip header-chip" data-collapse="${esc(g.chip)}">${esc(g.chip)} &times;</span></th>`;
+  });
+  thead += "</tr>";
+  if (expandedGroups.length) {
+    thead += "<tr><th class='col-entity'></th>";
+    DEFAULT_COLS.forEach(() => thead += "<th></th>");
+    thead += "<th></th>";
+    expandedGroups.forEach(g => g.fields.forEach(f => thead += `<th>${esc(FIELD_LABELS[f] || f)}</th>`));
+    thead += "</tr>";
+  }
+
+  let tbody = "";
+  for (const p of papers) {
+    tbody += `<tr><td class="col-entity" data-entity="${esc(p.entity)}">${esc(p.title)}</td>`;
+    DEFAULT_COLS.forEach(c => tbody += `<td>${esc(joinVals(p.fields[c.name]))}</td>`);
+
+    tbody += "<td>";
+    collapsedChips.forEach(g => {
+      const hasAny = g.fields.some(f => p.fields[f] && p.fields[f].length);
+      if (hasAny) tbody += `<span class="chip" data-chip="${esc(g.chip)}">${esc(g.chip)}</span>`;
+    });
+    tbody += "</td>";
+
+    expandedGroups.forEach(g => g.fields.forEach(f => {
+      tbody += `<td>${esc(joinVals(p.fields[f]))}</td>`;
+    }));
+    tbody += "</tr>";
+  }
+
+  el.innerHTML = "<thead>" + thead + "</thead><tbody>" + tbody + "</tbody>";
+
+  el.querySelectorAll(".chip[data-chip]").forEach(chip => {
+    chip.addEventListener("click", () => { expanded.add(chip.dataset.chip); render(); });
+  });
+  el.querySelectorAll(".chip[data-collapse]").forEach(chip => {
+    chip.addEventListener("click", () => { expanded.delete(chip.dataset.collapse); render(); });
+  });
+  el.querySelectorAll(".col-entity[data-entity]").forEach(cell => {
+    cell.addEventListener("click", () => openDetail(cell.dataset.entity));
+  });
+}
+
+// ============================================================
+// Paper detail panel (search-ui-options.html, option C: permanent
+// split -- table stays visible and usable, detail docks on the right)
+// ============================================================
+
+function findPaper(entity) { return currentPapers.find(p => p.entity === entity); }
+
+function openDetail(entity) {
+  const p = findPaper(entity);
+  if (!p) return;
+  location.hash = "paper/" + entity;
+}
+
+function closeDetail() {
+  if (location.hash.startsWith("#paper/")) location.hash = "";
+  else renderDetailPanel(null);
+}
+
+function renderDetailPanel(entity) {
+  const panelEl = document.getElementById("detail-panel");
+  const p = entity ? findPaper(entity) : null;
+  if (!p) { panelEl.hidden = true; panelEl.innerHTML = ""; return; }
+
+  // same field order as the table itself: bibliographic defaults first,
+  // then every chip group fully expanded -- no sparsity-hiding needed for one paper
+  let html = '<span class="close" id="detail-close">&times;</span>';
+  html += `<h2>${esc(p.title)}</h2>`;
+  DEFAULT_COLS.forEach(c => {
+    const v = joinVals(p.fields[c.name]);
+    if (!v) return;
+    html += `<div class="detail-field"><div class="flabel">${esc(c.label)}</div><div class="fvalue">${esc(v)}</div></div>`;
+  });
+  CHIP_GROUPS.forEach(g => g.fields.forEach(f => {
+    const v = joinVals(p.fields[f]);
+    if (!v) return;
+    html += `<div class="detail-field"><div class="flabel">${esc(FIELD_LABELS[f] || f)}</div><div class="fvalue">${esc(v)}</div></div>`;
+  }));
+  panelEl.innerHTML = html;
+  panelEl.hidden = false;
+  document.getElementById("detail-close").addEventListener("click", closeDetail);
+}
+
+function handleHashChange() {
+  const m = location.hash.match(/^#paper\/(.+)$/);
+  renderDetailPanel(m ? decodeURIComponent(m[1]) : null);
+}
+window.addEventListener("hashchange", handleHashChange);
+
+// ============================================================
+// Real search: Transformers.js embeds the query live in the browser;
+// corpus embeddings are precomputed by the Python pipeline and fetched
+// from data/embeddings.json (generated, not committed -- see .gitignore).
+// No relevance cutoff by design: every query returns its top 8 units,
+// however weak, and the viewer is trusted to judge low scores themselves.
+// Quote-syntax exact-text mode is deliberately not built yet.
+// Schema-item hits (components/attributes, not papers) are filtered out
+// of results for now -- the "jump to column" interaction they need
+// isn't built yet, and showing them with nowhere to click would be worse
+// than not showing them.
+// ============================================================
+
+let searchReady = false;
+let embedQuery = null;   // async (text) -> number[384], set once the model loads
+let corpusUnits = [];    // [{entity, attribute_name, text, vector}], papers only
+
+function cosineSim(a, b) {
+  let dot = 0, na = 0, nb = 0;
+  for (let i = 0; i < a.length; i++) { dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; }
+  return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
+function setOmniProgress(pct) {
+  document.getElementById("omni-progress-fill").style.width = pct + "%";
+  omnibarEl.placeholder = "Getting search ready… " + Math.round(pct) + "%";
+}
+
+// streams the response so embeddings.json gets real byte-level progress too,
+// same as the model files -- not just a silent fetch that stalls the bar at 100%
+async function fetchJsonWithProgress(url, onFileProgress) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const total = Number(res.headers.get("content-length")) || 0;
+  if (!total || !res.body) { onFileProgress(1, 1); return res.json(); }
+  const reader = res.body.getReader();
+  const chunks = [];
+  let loaded = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    loaded += value.length;
+    onFileProgress(loaded, total);
+  }
+  return JSON.parse(await new Blob(chunks).text());
+}
+
+async function initSearch() {
+  omnibarEl.disabled = true;
+  omnibarEl.classList.add("loading");
+  document.getElementById("omni-progress").hidden = false;
+  omnibarEl.placeholder = "Getting search ready…";
+  try {
+    // one shared map/percentage for every file being downloaded -- the model's
+    // own files (tracked by its progress_callback) AND embeddings.json (tracked
+    // by hand above), so the bar reflects combined real progress, not just the
+    // model's, and never silently stalls at 100% while something else loads
+    const fileProgress = new Map();
+    const recompute = () => {
+      let loaded = 0, total = 0;
+      for (const f of fileProgress.values()) { loaded += f.loaded; total += f.total; }
+      if (total > 0) setOmniProgress((loaded / total) * 100);
+    };
+    const trackFile = (key) => (loaded, total) => { fileProgress.set(key, { loaded, total }); recompute(); };
+
+    const embeddingsPromise = fetchJsonWithProgress("data/embeddings.json", trackFile("embeddings.json"));
+    const transformersMod = await import("https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2");
+
+    const onModelProgress = (e) => {
+      if (e.status !== "progress" || typeof e.total !== "number") return;
+      fileProgress.set(e.file, { loaded: e.loaded, total: e.total });
+      recompute();
+    };
+    const extractor = await transformersMod.pipeline(
+      "feature-extraction", "Xenova/all-MiniLM-L6-v2", { progress_callback: onModelProgress }
+    );
+    embedQuery = async (text) => Array.from((await extractor(text, { pooling: "mean", normalize: true })).data);
+
+    const embeddingsRes = await embeddingsPromise;
+    corpusUnits = embeddingsRes.units.filter(u => paperEntities.has(u.entity));
+    setOmniProgress(100);
+
+    searchReady = true;
+    omnibarEl.disabled = false;
+    omnibarEl.classList.remove("loading");
+    document.getElementById("omni-progress").hidden = true;
+    omnibarEl.placeholder = "Search by title, author, or topic…";
+  } catch (err) {
+    omnibarEl.classList.remove("loading");
+    document.getElementById("omni-progress").hidden = true;
+    omnibarEl.placeholder = "Search unavailable";
+    console.error("search init failed:", err);
+  }
+}
+
+function fieldLabel(attr) {
+  if (attr === "theName") return "Title";
+  if (attr === "theAbstract") return "Abstract";
+  if (FIELD_LABELS[attr]) return FIELD_LABELS[attr];
+  const dc = DEFAULT_COLS.find(c => c.name === attr);
+  return dc ? dc.label : attr;
+}
+
+// mirrors the Python grouping exactly: theName never gets a redundant
+// subline since the header already shows it; single-hit+name -> header
+// only; single-hit+non-name -> snippet-leads "solo" layout.
+function buildGroup(entity, hits) {
+  const title = entityNames[entity] || "(untitled)";
+  if (hits.length === 1 && hits[0].attribute_name === "theName") {
+    return { entity, title, hits: [] };
+  }
+  if (hits.length === 1) {
+    return { entity, title, solo: { field: fieldLabel(hits[0].attribute_name), snip: hits[0].text } };
+  }
+  const nonNameHits = hits.filter(h => h.attribute_name !== "theName");
+  return { entity, title, hits: nonNameHits.map(h => ({ field: fieldLabel(h.attribute_name), snip: h.text })) };
+}
+
+async function runSearch(q) {
+  const qVec = await embedQuery(q);
+  const scored = corpusUnits
+    .map(u => ({ ...u, score: cosineSim(u.vector, qVec) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+
+  const byEntity = new Map();
+  for (const u of scored) {
+    if (!byEntity.has(u.entity)) byEntity.set(u.entity, []);
+    byEntity.get(u.entity).push(u);
+  }
+  const groups = [...byEntity.entries()]
+    .map(([entity, hits]) => ({ entity, hits, maxScore: Math.max(...hits.map(h => h.score)) }))
+    .sort((a, b) => b.maxScore - a.maxScore)
+    .map(({ entity, hits }) => buildGroup(entity, hits));
+
+  renderDropdown(groups);
+}
+
+function renderDropdown(groups) {
+  const el = document.getElementById("dropdown");
+  if (!groups.length) { el.innerHTML = '<div class="dd-empty">No matches.</div>'; el.hidden = false; return; }
+  let html = "";
+  groups.forEach((g, i) => {
+    if (g.solo) {
+      html += `<div class="eg eg-solo" data-entity="${esc(g.entity)}">`
+        + `<div class="lead">&ldquo;${esc(g.solo.snip)}&rdquo;</div>`
+        + `<div class="crumb"><span class="tagchip">${esc(g.solo.field)}</span>`
+        + `<span class="mid">${esc(g.title)}</span><span class="tagchip">Paper</span></div></div>`;
+    } else {
+      html += `<div class="eg" data-entity="${esc(g.entity)}">`
+        + `<div class="eg-head"><span class="name">${esc(g.title)}</span><span class="tagchip">Paper</span></div>`;
+      g.hits.forEach((h, j) => {
+        if (j > 0) html += '<hr class="attr-divider">';
+        html += `<div class="eg-hit"><span class="tagchip">${esc(h.field)}</span><span class="snip">&ldquo;${esc(h.snip)}&rdquo;</span></div>`;
+      });
+      html += "</div>";
+    }
+    if (i < groups.length - 1) html += '<hr class="entity-divider">';
+  });
+  html += `<div class="dd-footer">See all results &rarr; (results page not built yet)</div>`;
+  el.innerHTML = html;
+  el.hidden = false;
+  el.querySelectorAll(".eg[data-entity]").forEach(row => {
+    row.addEventListener("click", () => { openDetail(row.dataset.entity); closeDropdown(); });
+  });
+}
+
+function closeDropdown() {
+  const el = document.getElementById("dropdown");
+  el.hidden = true;
+  el.innerHTML = "";
+}
+
+const omnibarEl = document.getElementById("omnibar");
+let searchDebounceTimer = null;
+omnibarEl.addEventListener("input", () => {
+  const q = omnibarEl.value.trim();
+  if (!q) { closeDropdown(); return; }
+  if (!searchReady) return; // disabled while loading anyway; guards a race on the trailing edge
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(() => runSearch(q), 250);
+});
+omnibarEl.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDropdown(); omnibarEl.blur(); } });
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".omni-wrap")) closeDropdown();
+});
+
+document.getElementById("detail-toggle").addEventListener("click", () => {
+  const detail = document.getElementById("sub-detail");
+  const btn = document.getElementById("detail-toggle");
+  const show = detail.hidden;
+  detail.hidden = !show;
+  btn.setAttribute("aria-expanded", String(show));
+});
+
+main();
+</script>
+</body>
+</html>
