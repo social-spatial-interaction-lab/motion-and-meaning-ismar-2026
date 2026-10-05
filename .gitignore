@@ -1,2 +1,4 @@
-data/embeddings.json
+data/embeddings.bin
+data/embeddings-manifest.json
 scratchpad/
+node_modules/

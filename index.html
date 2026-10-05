@@ -443,13 +443,14 @@ function setOmniProgress(pct) {
   omnibarEl.placeholder = "Getting search ready… " + Math.round(pct) + "%";
 }
 
-// streams the response so embeddings.json gets real byte-level progress too,
-// same as the model files -- not just a silent fetch that stalls the bar at 100%
-async function fetchJsonWithProgress(url, onFileProgress) {
+// streams the response so the embeddings files get real byte-level progress
+// too, same as the model files -- not just a silent fetch that stalls the
+// bar at 100%
+async function fetchWithProgress(url, onFileProgress) {
   const res = await fetch(url);
   if (!res.ok) throw new Error("HTTP " + res.status);
   const total = Number(res.headers.get("content-length")) || 0;
-  if (!total || !res.body) { onFileProgress(1, 1); return res.json(); }
+  if (!total || !res.body) { onFileProgress(1, 1); return res.arrayBuffer(); }
   const reader = res.body.getReader();
   const chunks = [];
   let loaded = 0;
@@ -460,7 +461,15 @@ async function fetchJsonWithProgress(url, onFileProgress) {
     loaded += value.length;
     onFileProgress(loaded, total);
   }
-  return JSON.parse(await new Blob(chunks).text());
+  const buf = new Uint8Array(loaded);
+  let o = 0;
+  for (const c of chunks) { buf.set(c, o); o += c.length; }
+  return buf.buffer;
+}
+
+async function fetchJsonWithProgress(url, onFileProgress) {
+  const buf = await fetchWithProgress(url, onFileProgress);
+  return JSON.parse(new TextDecoder().decode(buf));
 }
 
 async function initSearch() {
@@ -481,7 +490,8 @@ async function initSearch() {
     };
     const trackFile = (key) => (loaded, total) => { fileProgress.set(key, { loaded, total }); recompute(); };
 
-    const embeddingsPromise = fetchJsonWithProgress("data/embeddings.json", trackFile("embeddings.json"));
+    const manifestPromise = fetchJsonWithProgress("data/embeddings-manifest.json", trackFile("embeddings-manifest.json"));
+    const vectorsPromise = fetchWithProgress("data/embeddings.bin", trackFile("embeddings.bin"));
     const transformersMod = await import("https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2");
 
     const onModelProgress = (e) => {
@@ -494,8 +504,16 @@ async function initSearch() {
     );
     embedQuery = async (text) => Array.from((await extractor(text, { pooling: "mean", normalize: true })).data);
 
-    const embeddingsRes = await embeddingsPromise;
-    corpusUnits = embeddingsRes.units.filter(u => paperEntities.has(u.entity));
+    const manifest = await manifestPromise;
+    const vectorBytes = new Int8Array(await vectorsPromise);
+    const dim = manifest.dim;
+    // Int8Array views directly into the buffer, no copy, no dequantization --
+    // cosineSim is scale-invariant per vector, so the raw int8 components
+    // compare correctly against the float32 query vector as-is.
+    const allUnits = manifest.units.map((u, i) => ({
+      ...u, vector: vectorBytes.subarray(i * dim, (i + 1) * dim),
+    }));
+    corpusUnits = allUnits.filter(u => paperEntities.has(u.entity));
     setOmniProgress(100);
 
     searchReady = true;
