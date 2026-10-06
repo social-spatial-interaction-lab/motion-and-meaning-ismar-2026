@@ -256,8 +256,17 @@ async function main() {
       '<tr><td style="padding:20px">Could not load data/statements.csv (' + err + '). Serve this folder over HTTP, not file://.</td></tr>';
     return;
   }
-  const rows = parseCSV(text);
-  statusEl.textContent = rows.length + " SAEV rows loaded.";
+  const allRows = parseCSV(text);
+  statusEl.textContent = allRows.length + " SAEV rows loaded.";
+
+  // aReplacement/anErratum supersede a statement by its own handle -- drop
+  // any row whose handle is the *target* of one of those, so a corrected
+  // value doesn't show up alongside the value it replaced.
+  const deadHandles = new Set(
+    allRows.filter(r => r.attribute_name === "aReplacement" || r.attribute_name === "anErratum")
+      .map(r => r.entity)
+  );
+  const rows = allRows.filter(r => !deadHandles.has(r.handle));
 
   // which entities are tagged ResearchPaper
   paperEntities = new Set(

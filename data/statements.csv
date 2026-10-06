@@ -2095,3 +2095,250 @@ c6a0ec24-ab4f-4bc2-bb50-716a7123443e,104a7b16-c672-4595-8298-219245dfa584,theKey
 74b8d3fd-a5df-4355-bba3-897f3f883980,90c2b9bb-ff6b-4f84-a29b-7b9e8dcfe04a,aComponent,7b1534e9-2d3d-4844-98db-fc59a9ba1d25,610789b4-320a-4a42-99c3-dea442d93894,uuid
 1104414d-4f22-4bc4-9bad-8c82b013f64b,90c2b9bb-ff6b-4f84-a29b-7b9e8dcfe04a,aComponent,7b1534e9-2d3d-4844-98db-fc59a9ba1d25,92d8c243-7a69-4258-b06f-0e4a75639eef,uuid
 138176ff-92f5-45c9-9594-8e33788bc223,90c2b9bb-ff6b-4f84-a29b-7b9e8dcfe04a,aComponent,7b1534e9-2d3d-4844-98db-fc59a9ba1d25,3330383d-f836-4121-9357-fceaea534229,uuid
+58e6be5e-db52-4181-b75a-709335547401,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,a66de988-e5a7-48a2-b4e9-bb445e778d8e,10.1145/3544548.3580736,str
+f6a2c33f-5e5e-4a60-8236-4c5a93a0d9b5,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,20961b7f-932b-4e58-a583-da80031c8bdd,58e6be5e-db52-4181-b75a-709335547401,uuid
+591b8e5b-ec40-4856-afd9-a7c865c04b7e,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,b2ec19aa-48d8-426b-810f-97cf02549459,10.1109/VR46266.2020.00049,str
+70c45256-0a2e-454b-ac8e-912cb682c539,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,8ca07fa3-becb-4635-bb62-f5476f52175d,591b8e5b-ec40-4856-afd9-a7c865c04b7e,uuid
+784bab2f-37af-4996-9bc5-11540a98afc6,9ca34038-1a65-4ede-88c5-1492ab4bc249,theIntention,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,"DOIs in this review are stored in bare form (10.prefix/suffix), with no URL scheme and no https://doi.org/ or publisher-site wrapper -- this matches the DOI's own identifier syntax (ISO 26324 / the DOI Handbook) and is exactly what CrossRef's API returns as a work's ""DOI"" field. Entries that were recorded as a resolver or publisher URL have been normalized to bare form via aReplacement.",str
+5a9d3e92-0e47-49a5-a2b1-40dc1f23b53d,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,f1a66b35-c659-4142-8c16-642a7152047e,10.1080/10447318.2018.1555736,str
+f393f29e-25ba-463a-baef-f6b28b5f4e2a,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,7031fdde-ca43-4b06-b319-349fdce077b5,Sebastian Kohl,str
+1d1ebc00-14b3-41d0-91b9-131615b99db1,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,7031fdde-ca43-4b06-b319-349fdce077b5,Stefan Gradl,str
+40c6219f-376c-4179-bda8-72b5ec493b60,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,7031fdde-ca43-4b06-b319-349fdce077b5,Rosanna Farlock,str
+9379120a-11af-4b91-b336-2d5a8968d24f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,7031fdde-ca43-4b06-b319-349fdce077b5,Daniel Roth,str
+aea32ced-0f31-452e-98ce-1362a88f7084,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,7031fdde-ca43-4b06-b319-349fdce077b5,Bjoern M. Eskofier,str
+0643ba13-0285-4ec9-b090-1a3af0bc5bf8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f23a7e46-e2d4-4137-aa26-1beca9764767,Jonathan C. Lansey,str
+455393c6-17db-4c95-a347-f3bc10df50e7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f23a7e46-e2d4-4137-aa26-1beca9764767,Courtney N. Noblett,str
+f7f3cce9-90b2-4b41-a74d-2ebc49b445e8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f23a7e46-e2d4-4137-aa26-1beca9764767,Caroline E. Sarris,str
+10f773b6-e35b-4276-a963-fc9d30dd3c4d,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,f23a7e46-e2d4-4137-aa26-1beca9764767,10.1177/00315125231205322,str
+6dda4fb9-ffaa-4df2-93b2-bfbf54771c70,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,513f6d8e-bed4-4320-8771-0476928f364d,10f773b6-e35b-4276-a963-fc9d30dd3c4d,uuid
+f189c39c-6411-41dc-a8b5-bac21ab80a73,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8b07d92a-80cc-448d-bfd6-2f1cf97b2b45,Mathias N. Lystbæk,str
+3e376b62-f67b-40e8-a1cd-9c87d88b3712,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8b07d92a-80cc-448d-bfd6-2f1cf97b2b45,Pavel Manakhov,str
+4744409c-3756-445d-97ae-bda4510664a7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8b07d92a-80cc-448d-bfd6-2f1cf97b2b45,Jens Emil Sloth Grønbæk,str
+475e3df1-8a38-418c-822c-97829f3d9c57,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8b07d92a-80cc-448d-bfd6-2f1cf97b2b45,Ken Pfeuffer,str
+d4fdeba3-f14e-4ee7-a51c-6df1d69bc75d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8b07d92a-80cc-448d-bfd6-2f1cf97b2b45,Hans Gellersen,str
+633515f1-f32e-4e26-8764-68dd76113eec,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,8b07d92a-80cc-448d-bfd6-2f1cf97b2b45,10.1145/3544548.3581423,str
+f3823685-f720-4021-b242-42370024294b,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,4d5fbef7-dc25-4e46-978b-6928effc255b,633515f1-f32e-4e26-8764-68dd76113eec,uuid
+b6bec12a-dd27-4b87-b0f7-78b46a593b0c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8596c927-1814-4aeb-8f88-d6ff8888b4b8,Marc Eduard Frincu,str
+a296ccd4-5be9-4351-b5dd-f2d57a37ab7d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8596c927-1814-4aeb-8f88-d6ff8888b4b8,Chioibas Daniel,str
+e57defd7-92da-4637-b603-024f37fa3c74,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8596c927-1814-4aeb-8f88-d6ff8888b4b8,Darius Mocan,str
+0d52f40d-e200-491c-916b-0c367bd81af7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8596c927-1814-4aeb-8f88-d6ff8888b4b8,Marin Gabor,str
+86612970-6534-42f2-bcd6-a2b573b299f7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,db99ba06-ac07-484e-9623-58ea7cb20f0c,John Edison Muñoz Cardona,str
+b6a85c4f-64e1-4d9d-b5df-caad9adf174e,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,db99ba06-ac07-484e-9623-58ea7cb20f0c,10.1145/3748699.3749776,str
+a9eadba5-978c-441c-9739-f2ac083fe012,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,3e0e9aab-46a2-4e7d-8cf5-b81d545db518,b6a85c4f-64e1-4d9d-b5df-caad9adf174e,uuid
+dc272fcd-724c-4bae-a4b8-b134268829da,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8523269a-a6c0-4178-a0f2-23e05fd380f6,Håvard Lorås,str
+01ee32c8-6348-45d6-b2e8-c51ed288e9de,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,8523269a-a6c0-4178-a0f2-23e05fd380f6,10.1177/00315125251347987,str
+671e7171-1d26-4a3a-9b9e-7cd44fbe4dc4,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,e835b065-5c71-4244-8306-5114947f318d,01ee32c8-6348-45d6-b2e8-c51ed288e9de,uuid
+72425df4-9e89-408e-8fe3-e6955d5837c2,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,Joshua M Le,str
+01971a91-ba1f-48cd-ac99-3ee3f2c1e9ad,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,Ripan Kumar Kundu,str
+5c4d5a37-22cc-4645-a87b-9d464216523c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,Barry Giesbrecht,str
+6a23c11b-b277-41aa-bb11-dec716e26bb0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,Tobias Höllerer,str
+005762f2-1e41-4bea-b210-b6995d719578,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,Khaza Anuarul Hoque,str
+70666d21-bb6a-49d9-b764-456f8dbe9f8b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,Kevin Desai,str
+6f98bc91-c06e-49b4-9846-72b5c03c2dba,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2295fadd-e9f8-47cc-b031-4e2cdf02f128,John Quarles,str
+318ab29c-b968-48bf-aca8-545bd684e28e,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,Joshua M Le,str
+c041b9d2-7378-4c19-8a65-67f6247b39e5,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,Ripan Kumar Kundu,str
+8509745c-ae1b-4f0e-a8ae-d615f212b01c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,Barry Giesbrecht,str
+ce26fca2-729c-4520-8483-20ccf633f825,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,Tobias Höllerer,str
+6104af04-574f-4f02-ad1b-895324f1522a,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,Khaza Anuarul Hoque,str
+c85a9b6a-65d1-458d-ab28-f5ab07b83bb6,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,Kevin Desai,str
+51ffac35-11a1-4b02-bff5-36b37abc96d6,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,467ad05a-9435-4a86-aa51-6a26d64de7a9,John Quarles,str
+396ca13c-42af-4b96-a956-13d853fb4ad8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f491227e-982d-48f4-95e3-259f1a5d9e4d,Enrico Collantoni,str
+04290f07-a444-4a38-a6b5-1df08f7db82d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f491227e-982d-48f4-95e3-259f1a5d9e4d,Valentina Meregalli,str
+1b2d0625-491c-4e01-98c5-70c0028eb18f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f491227e-982d-48f4-95e3-259f1a5d9e4d,Elisa Rabarbari,str
+b20f461d-733a-4468-85fa-10cb3f50157c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f491227e-982d-48f4-95e3-259f1a5d9e4d,Carolina Simonazzi,str
+3268d244-5f6d-47b0-ab4a-bd04d46d2f6e,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f491227e-982d-48f4-95e3-259f1a5d9e4d,Jennifer Svaldi,str
+0790606a-3903-4153-a06c-090f08f0aadb,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f491227e-982d-48f4-95e3-259f1a5d9e4d,Valentina Cardi,str
+0dc3ad77-9b59-4c6b-b442-7371e46b26a5,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,f491227e-982d-48f4-95e3-259f1a5d9e4d,10.1002/eat.24143,str
+bd9cb259-f1af-4a14-9bfb-d4c4d31ea8a3,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,d81bc667-ce76-4a5e-97cb-c308fb4d9537,0dc3ad77-9b59-4c6b-b442-7371e46b26a5,uuid
+48621c62-3d75-4316-881d-21b3fe2f4245,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,58fb9da5-a398-481c-876e-434048e53860,Marc Palomar,str
+855d2621-8490-472a-a1a8-3617bb47b8a2,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,58fb9da5-a398-481c-876e-434048e53860,Nuria Pelechano,str
+c6cfc603-fbd8-4fb5-8e6f-dfa76cbc22cc,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,58fb9da5-a398-481c-876e-434048e53860,10.1145/3274247.3274513,str
+47f42b87-9bba-488b-9308-13d4a3272da0,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,9d38955b-879f-4b8b-832f-3756784d1c95,c6cfc603-fbd8-4fb5-8e6f-dfa76cbc22cc,uuid
+b8950b9c-b731-4a26-a884-9cbe579af9f6,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8e322807-982a-4cee-b475-8985d6f889a9,Steffen Haesler,str
+5ac64144-ff66-4099-815c-0d8719013b78,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8e322807-982a-4cee-b475-8985d6f889a9,Jorn Hurtienne,str
+bd98a7b0-fb0c-4dd0-9e35-4e6cb8864c82,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8e322807-982a-4cee-b475-8985d6f889a9,Carolin Wienrich,str
+305174f7-7a4b-4006-b678-32c20bbcbffd,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2aaebe3f-aab6-4a31-8e32-4ee8017f310a,Bruno Andrade,str
+f6d4ddb4-3468-4756-aa9a-d929487698ba,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2aaebe3f-aab6-4a31-8e32-4ee8017f310a,Xiaoqiong Wang,str
+4bfb4092-6fb1-4f32-95a8-9acdfd0ec666,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2aaebe3f-aab6-4a31-8e32-4ee8017f310a,Ibrahim Aburabee,str
+b5d60176-7c0b-4abb-8f29-7b7ce34d2e43,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2aaebe3f-aab6-4a31-8e32-4ee8017f310a,Sinan Yuan,str
+d220901b-82f2-4cad-bf1a-38cb9b139519,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,ab952a1a-53f4-4ca6-8fa7-da8f7c9c9370,Kazuki Hiranai,str
+969a0afc-6b2a-4124-a4d3-74c9a86eba51,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,ab952a1a-53f4-4ca6-8fa7-da8f7c9c9370,Akiko Takahashi,str
+d19ce590-3def-45ed-b9b7-ba608f430ae0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,96b84892-37f8-4707-8c0e-0837c73d977d,Yunjia Wang,str
+e8d1f300-a57e-43dc-9adc-a18381662232,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,96b84892-37f8-4707-8c0e-0837c73d977d,Ying Lu,str
+848b6a43-740d-4e48-8f85-130f0565f6b4,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,96b84892-37f8-4707-8c0e-0837c73d977d,Yunhong Zhang,str
+eccbbfab-13de-4235-9596-574aa7227641,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,96b84892-37f8-4707-8c0e-0837c73d977d,Xingfeng Wang,str
+d4426025-8b6f-4d5d-8599-f9e0287e6209,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,96b84892-37f8-4707-8c0e-0837c73d977d,Yong Wang,str
+72f4bb98-d9ef-4cbe-be9a-3f8ee8fa3454,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,c5179206-0625-4728-bdad-7f231c4b02aa,Chloe Callahan-Flintoft,str
+94e8a0a6-a6b3-437c-8737-a4ee49227526,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,c5179206-0625-4728-bdad-7f231c4b02aa,Anna Madison,str
+8004f0c4-7bc4-4d4d-aa64-0a6b6d6ae086,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,c5179206-0625-4728-bdad-7f231c4b02aa,Louis Dankovich,str
+7dc74d0d-9956-497a-8dd8-a9e61dc75563,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,c5179206-0625-4728-bdad-7f231c4b02aa,Jonathan Touryan,str
+183c43e3-cef4-41a5-b1e0-ca6c2c71d087,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,c5179206-0625-4728-bdad-7f231c4b02aa,10.1186/s41235-025-00657-y,str
+5f1c09cd-04b8-4691-9f2d-77e1f14c222b,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,4686fb07-cf2d-4965-8518-6354794cdbfa,183c43e3-cef4-41a5-b1e0-ca6c2c71d087,uuid
+b744935a-75fe-44e9-b476-bcb8bcd991e1,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,ee5190d8-16d0-4251-87f9-1b6f1f2d4aef,Shantong Zhu,str
+54882d4c-3b98-4c4f-94ed-4258bb80b480,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,ee5190d8-16d0-4251-87f9-1b6f1f2d4aef,Yiran Shen,str
+0dc3de36-7238-479c-9b89-63b252526d0c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,ee5190d8-16d0-4251-87f9-1b6f1f2d4aef,Yanjie Zhang,str
+a76d42c4-c961-4522-bbbb-93e708c4c9a9,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,ee5190d8-16d0-4251-87f9-1b6f1f2d4aef,Lingguo Bu,str
+051ea5b7-5915-40d9-8ebf-9af43254e1d1,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,b4ab3c66-146b-483f-be57-8199760ce19e,10.1145/3479544,str
+e7b1ce9a-6e6c-4e77-a8fe-b0d9546e774b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,54b85a0b-ed5e-41b8-970a-0a1a89a261fa,Silvia Rossi,str
+e2e58294-760b-4b1c-9d12-e13e9542d508,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,54b85a0b-ed5e-41b8-970a-0a1a89a261fa,Pablo Cesar,str
+4670d02d-02a8-4244-b188-af4017f034bb,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,54b85a0b-ed5e-41b8-970a-0a1a89a261fa,10.1145/3712677.3720460,str
+d21288a3-c61d-4ab6-9da7-9df7e902ea82,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,17ac8224-a907-4929-9b3c-306a15d85c38,4670d02d-02a8-4244-b188-af4017f034bb,uuid
+3a8a89c1-03e9-42c9-82e9-079a10fda194,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f8776f7e-854b-40bf-9b52-3e5535ba0595,Ludovic Hoyet,str
+59b8feea-0665-418c-a3db-2af8cf18703f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f8776f7e-854b-40bf-9b52-3e5535ba0595,Anne-Hélène Olivier,str
+44fc5084-0131-49e4-9735-ecb60d91183e,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f8776f7e-854b-40bf-9b52-3e5535ba0595,Julien Pettré,str
+0d2dda88-0f3c-4b89-af59-202b9e917871,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f8776f7e-854b-40bf-9b52-3e5535ba0595,Katja Zibrek,str
+8cc82b41-4bc0-4daf-b333-ade4887a1553,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,289c322e-06e9-484c-abe6-fb05797bd8e2,Dennis Osei Tutu,str
+e259280e-736c-4e89-9b1d-7aa0a85e8ef9,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,289c322e-06e9-484c-abe6-fb05797bd8e2,Sepideh Habibiabad,str
+a9d4bf83-e160-4c3b-bcd7-2f34b61ef02f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,289c322e-06e9-484c-abe6-fb05797bd8e2,Wim Van den Noortgate,str
+9cd25815-0773-43be-9247-6720ad927ade,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,289c322e-06e9-484c-abe6-fb05797bd8e2,Jelle Saldien,str
+26291f54-9bbb-4ab9-ac1e-a1be87393b31,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,289c322e-06e9-484c-abe6-fb05797bd8e2,Klaas Bombeke,str
+67292b22-327b-498b-b849-47cd41c92d72,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,b16c15e8-1f7b-454f-adaf-0e10ad8f3b7e,Anthony Steed,str
+e5264d8d-e9c0-4bd8-be42-98c7425a62d0,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,b16c15e8-1f7b-454f-adaf-0e10ad8f3b7e,10.1145/3562939.3565630,str
+7f1a93a8-8e4f-4b7b-a7a0-239504fdf618,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,63445441-aca9-4fab-b7db-bb38a63f3755,e5264d8d-e9c0-4bd8-be42-98c7425a62d0,uuid
+bc3ecf0c-ad55-4e84-808d-edb254da08e2,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,260bc4a9-8870-40eb-917b-1d3d0fbf714c,Alexadros Koilias,str
+33a54535-c895-4ca2-81d6-1861dc7a4ff4,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,260bc4a9-8870-40eb-917b-1d3d0fbf714c,Sahana Gubbi,str
+df639369-5e3a-4722-8d9c-79374f240dbf,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,260bc4a9-8870-40eb-917b-1d3d0fbf714c,Christos Mousas,str
+df8c31b5-1734-4c18-93b0-40963dfa82ce,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,260bc4a9-8870-40eb-917b-1d3d0fbf714c,10.1145/3359997.3365709,str
+fa98bba8-185b-4e0a-9ffa-92127fe28cf7,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,8e049782-d528-44fa-bde3-962d4e57577b,df8c31b5-1734-4c18-93b0-40963dfa82ce,uuid
+8f51a184-9356-4070-aa34-aedd3886a237,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,3d965f05-0e29-4891-b222-a47e08ca3a77,Alexandros Koilias,str
+cb892903-7d7e-4e0a-8930-a52ce60644b4,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,3d965f05-0e29-4891-b222-a47e08ca3a77,Dominic Kao,str
+3c005e03-cf58-40d7-94a8-60dec42f5f68,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,3d965f05-0e29-4891-b222-a47e08ca3a77,Christos Mousas,str
+4c3a29d1-ba01-45fe-bf02-2956b318e2fa,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,b977d4ef-886e-4d1d-bfd9-5cb0bf84320c,David Hollinger,str
+1c54e256-bbbc-4419-84da-f096b69851d0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,b977d4ef-886e-4d1d-bfd9-5cb0bf84320c,Mingxiao Liu,str
+f43d36f1-92e3-4aeb-8126-303d9c419f5b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,b977d4ef-886e-4d1d-bfd9-5cb0bf84320c,Aniket Shah,str
+5c57ef3d-1570-4008-b6ea-4b6aa566d81c,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,b977d4ef-886e-4d1d-bfd9-5cb0bf84320c,10.1371/journal.pone.0233175,str
+1a9607de-c2c9-430d-aca9-799e195d59fe,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,e9843846-9b17-4be7-8c23-5c0ec671e31a,5c57ef3d-1570-4008-b6ea-4b6aa566d81c,uuid
+b44acc53-619c-4318-909e-e03a9aa11a2d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,28f57472-83f2-4402-b6c7-c95d98e07243,Haruka Murakami,str
+4e664caa-e6ec-40f5-a13c-3350d723b308,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,28f57472-83f2-4402-b6c7-c95d98e07243,Tetusnari Inamura,str
+069f5f5e-4c23-4503-893a-e94b3d7556c4,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,28f57472-83f2-4402-b6c7-c95d98e07243,10.1145/3747327.3764902,str
+8dfc8aa6-08e2-4cac-a21e-2bee6239f4d7,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,f7e7f976-0018-41e5-a401-eeea46db5cf8,069f5f5e-4c23-4503-893a-e94b3d7556c4,uuid
+972c5e04-be9e-4f25-92f8-5686388436f8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2a2b2ea5-436c-4057-b594-055b8a41a4c1,Alexandros Koilias,str
+5b80dd8c-782e-4748-94b8-bae36a95362f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2a2b2ea5-436c-4057-b594-055b8a41a4c1,Dimitris Anastasiou,str
+899545ad-765d-4468-a788-c68ad199bc7c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2a2b2ea5-436c-4057-b594-055b8a41a4c1,Banafsheh Rekabdar,str
+5db31b53-59e0-4264-8c39-f2fe86c7cd68,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,2a2b2ea5-436c-4057-b594-055b8a41a4c1,Christos-Nikolaos Anagnostopoulos,str
+c57f4b0b-7f01-4083-8982-44e5b580a770,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,c3a6b547-ddbe-4a67-b4e3-628043755725,10.1145/3712676.3714433,str
+014115f3-e287-4e4a-961c-538b31298ae6,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,12933fc6-4fef-4b47-af15-a22ed83e17a7,c57f4b0b-7f01-4083-8982-44e5b580a770,uuid
+66a057f4-d894-4703-8a09-3c467ede374f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Hannah Masoner,str
+3a63b948-0529-45bc-a5e3-8188d37dfd2a,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Alen Hajnal,str
+d8e327bb-2632-4e0c-a1a1-98f6040dfaaa,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Joseph D Clark,str
+e3102533-fd11-47a3-9673-45b889a59aab,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Catherine Dowell,str
+3b5ab291-9917-434b-b5b3-e164ba28ce71,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Tyler Surber,str
+0c1c7a40-9525-4ea4-aad4-8eeda066979e,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Ashley Funkhouser,str
+b0c7f73b-cd69-4634-8e83-afa976674a5d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Jonathan Doyon,str
+88701731-5892-4ef7-bfaa-0c7a0e6c018b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Gabor Legradi,str
+d49a6655-d81c-4e73-b431-829d542b3048,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Krisztian Samu,str
+82e65f13-262c-41f5-b56c-939574eeb2e6,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,48ba0433-6472-4edb-887f-6419aaa78d7b,Jeffrey B Wagman,str
+6ea52605-83f3-4a53-8646-8b72855e44ab,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,9f7846f5-a0f1-4543-b64e-0f62a83a8199,Ngoc-Doan-Trang Nguyen,str
+b38ec597-1c80-451a-ac50-24c1fadc9684,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,9f7846f5-a0f1-4543-b64e-0f62a83a8199,Patrice Renaud,str
+e70fe5be-9fdf-40b0-81dd-94231a3ec2a3,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,9f7846f5-a0f1-4543-b64e-0f62a83a8199,10.3389/frvir.2023.1307925,str
+10453b09-917a-4964-9b14-efbf764b7b70,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,b1281277-0910-4cc3-a7ed-15d8d1f5df74,e70fe5be-9fdf-40b0-81dd-94231a3ec2a3,uuid
+831f9e9f-fb00-4b65-99d7-09fba93f4fdd,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,aab25479-428c-4196-998d-7c464a12be39,Aurélien Léchappé,str
+6bec2bdf-e7a9-4aa2-b335-66fc7db82171,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,aab25479-428c-4196-998d-7c464a12be39,Ross Johnstone,str
+7969710a-6f6f-420c-b2ed-e479fe7069e1,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,aab25479-428c-4196-998d-7c464a12be39,Aurélien Milliat,str
+e04f6b05-a06e-4a29-a0b0-b2a6b50295bc,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,aab25479-428c-4196-998d-7c464a12be39,John H Williamson,str
+fc9d5924-f845-4190-b692-1fb5379294aa,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,aab25479-428c-4196-998d-7c464a12be39,Mathieu Chollet,str
+6fafacea-99e5-4806-98fa-d1aaad35c28b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,aab25479-428c-4196-998d-7c464a12be39,Julie R. Williamson,str
+a37fb25c-8f7d-4285-bf00-b12c63a38917,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,aab25479-428c-4196-998d-7c464a12be39,10.1145/3706598.3713628,str
+d80986b6-878d-4976-9952-e1e958b6384f,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,20a37db0-33ae-4064-834f-f2f6ad698ffe,a37fb25c-8f7d-4285-bf00-b12c63a38917,uuid
+b39d4f9a-9d5e-4d36-a00a-1d93502bdbc1,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,0d43ad3d-7424-4332-ae0a-12956da26b94,Julien Laroche,str
+86cfb28d-f458-478c-bb45-f5f0b53e42e2,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,0d43ad3d-7424-4332-ae0a-12956da26b94,Loup Vuarnesson,str
+56754a22-c450-4113-99f8-5e3e3df85516,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,0d43ad3d-7424-4332-ae0a-12956da26b94,Alexandra Endaltseva,str
+3bc11fde-9c7b-487a-a3c1-6edcd46b3637,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,0d43ad3d-7424-4332-ae0a-12956da26b94,Joseph Dumit,str
+e835f9e6-e4e0-4d78-9a92-382c916dd812,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,0d43ad3d-7424-4332-ae0a-12956da26b94,Asaf Bachrach,str
+2a94d85f-62c3-4162-8297-0b3d69db5660,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,0d43ad3d-7424-4332-ae0a-12956da26b94,10.3389/fpsyg.2021.539596,str
+089d8947-84d8-4449-aa8a-dadbec187c4e,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,37ae927c-bc36-44fb-bb29-f2bb5442af64,2a94d85f-62c3-4162-8297-0b3d69db5660,uuid
+206a62e3-78bc-4756-8df7-10129228071c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Bogoan Kim,str
+285da93f-12ed-4daf-b12f-0341f1efb3c7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Dayoung Jeong,str
+67907db7-acce-46b4-a7b9-d197472c6d9d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Mingon Jeong,str
+346a72e4-a883-495e-aebf-7e26cfc07259,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Taehyung Noh,str
+7acc685f-3d0a-471e-b5e3-76fb9ae998bc,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Sung-In Kim,str
+5abc84be-77f6-400a-847d-850a96363122,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Taewan Kim,str
+eebe5824-83cf-48b2-a7fb-b3dc9c26b9e1,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,So-Youn Jang,str
+12bc7963-a05e-4997-ba75-dc7e398b8e2f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Hee Jeong Yoo,str
+0641ecc5-6c85-4bdd-9b80-ee30064ff510,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Jennifer Kim,str
+676b18cb-de68-4b75-bef0-e16b9bd009a9,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Hwajung Hong,str
+7004f968-0903-43b7-8411-eaddd8e3a2bf,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,dc18b279-95ae-4053-9a9d-1efc3139aa0b,Kyungsik Han,str
+021e3f77-24ed-48d3-b309-4cfe7d1ebc6d,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,dc18b279-95ae-4053-9a9d-1efc3139aa0b,10.1145/3562939.3565608,str
+48c0ef02-e05c-44b1-917f-7b4469cff922,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,9f10c3d4-e016-4de1-8806-6c337781919d,021e3f77-24ed-48d3-b309-4cfe7d1ebc6d,uuid
+eebfe5c6-a1f9-42a2-8945-ee738879145d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,Jaikishan Khatri,str
+81e11a5c-7ec4-4af6-8412-c27bea002a02,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,Javier Marín-Morales,str
+ca5674d0-ffc8-4867-8b28-5e75b83bd029,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,Masoud Moghaddasi,str
+effcd592-fc7d-40cf-bedb-4f4366e393e8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,Jaime Guixeres,str
+64ac9e93-b215-42db-8e33-ea7c4ddd9f83,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,Irene Alice Chicchi Giglioli,str
+788fd9ca-8ee5-4585-aeec-c4e7f704a6fc,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,Mariano Alcañiz,str
+cc865080-0d2f-4600-b995-164f207fe3dc,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,a7fdfa8c-ccd8-439e-bb77-eb1b9367774e,10.3389/fpsyg.2022.752073,str
+51a591a3-1d39-4c02-baf6-bec6a6268099,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,670769fe-1431-4d1d-8097-1ef8d1551332,cc865080-0d2f-4600-b995-164f207fe3dc,uuid
+1b24cae9-bb3e-4478-a9da-79cefb07c663,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,fc9db5d2-d6f0-4b03-81f7-0c9243080e6f,Zhiming Hu,str
+357e31c2-fc82-4e92-ab3a-add897a97147,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,fc9db5d2-d6f0-4b03-81f7-0c9243080e6f,Andreas Bulling,str
+3ea2cf41-09fc-4de7-8b42-05f5a55271e0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,fc9db5d2-d6f0-4b03-81f7-0c9243080e6f,Sheng Li,str
+f4b81950-b1f0-4de9-973d-0b71f6c7431f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,fc9db5d2-d6f0-4b03-81f7-0c9243080e6f,Guoping Wang,str
+ffb47b7d-02d8-4819-9a91-cd7bd2f49809,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,fc9db5d2-d6f0-4b03-81f7-0c9243080e6f,10.1109/tvcg.2021.3138902,str
+aaba9b25-12d4-41ea-b83d-c07477846529,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,f13838aa-72a8-4fcc-b8b4-c859ab180794,ffb47b7d-02d8-4819-9a91-cd7bd2f49809,uuid
+9a700d46-77ff-40f6-9685-4a114ddf8876,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,98c05dec-fddf-4b60-b1eb-0d696154088d,Fernanda Herrera,str
+0950d643-e33d-458e-a123-692aefa76664,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,98c05dec-fddf-4b60-b1eb-0d696154088d,Jeremy N Bailenson,str
+58b1001e-65b4-4a4d-8c30-f2a4f62f723b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,78b39ba5-345f-4df9-b784-3eb47db0e5de,Marie Hartwig,str
+0b8d6671-f3a4-4003-bd2e-512cc25ad8e7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,78b39ba5-345f-4df9-b784-3eb47db0e5de,Volker Hohmann,str
+5cdcd8c8-166d-4225-baac-0e263cb2370f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,78b39ba5-345f-4df9-b784-3eb47db0e5de,Giso Grimm,str
+e335f190-26c6-45f2-99ba-8a0034e77cab,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,914552f5-bd17-4a4f-8385-20c639bb37a4,Jakob Hartbrich,str
+20f6f843-cfbd-45a4-ba92-20d3a9a55151,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,914552f5-bd17-4a4f-8385-20c639bb37a4,Stephanie Arévalo Arboleda,str
+1928730d-e2bf-4f87-b55e-711ed8e833fe,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,914552f5-bd17-4a4f-8385-20c639bb37a4,Steve Göring,str
+ba68248d-5d1b-4596-a321-90711cff55d8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,914552f5-bd17-4a4f-8385-20c639bb37a4,Alexander Raake,str
+bedf3b79-b132-48f6-9b0a-68d55e5fca08,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,5ea3a5e8-f7d6-42b2-ba5e-f18bd14232e6,Andrea Gulli,str
+faa8ce85-6714-4554-9eaa-40ba2b1bc130,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,5ea3a5e8-f7d6-42b2-ba5e-f18bd14232e6,Federico Fontana,str
+69b9a224-856d-4ec3-ac15-89754e7ad761,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,5ea3a5e8-f7d6-42b2-ba5e-f18bd14232e6,Eva Orzan,str
+3de43742-cc73-48e2-a6fc-ef82fc82997c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,5ea3a5e8-f7d6-42b2-ba5e-f18bd14232e6,Alessandro Aruffo,str
+4980a2ef-8476-435a-990c-61fbf8744cce,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,5ea3a5e8-f7d6-42b2-ba5e-f18bd14232e6,Enrico Muzzi,str
+1f875b38-0d7e-431b-8da2-592aa76ebb75,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,5ea3a5e8-f7d6-42b2-ba5e-f18bd14232e6,10.1371/journal.pone.0278705,str
+88981b88-261a-49c1-9c91-2c84a9793933,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,b3525c9e-7e8d-4b79-9cdf-bf7451bc8318,1f875b38-0d7e-431b-8da2-592aa76ebb75,uuid
+34597530-ebc8-424c-86b6-59a57f2ccf7a,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,45b50017-ca62-402e-9698-017127361a4c,César Daniel Rojas Ferrer,str
+3bbb5a60-f623-4eb2-9903-2e281715f35d,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,45b50017-ca62-402e-9698-017127361a4c,Hidehiko Shishido,str
+4b22cbbb-6ec1-4112-9d5d-e806929ec0ee,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,45b50017-ca62-402e-9698-017127361a4c,Itaru Kitahara,str
+34a25672-869e-495e-a0f7-e34ae5b9f2f7,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,45b50017-ca62-402e-9698-017127361a4c,Yoshinari Kameda,str
+01108a9a-9829-43bd-9214-c9b2c540dd16,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,45b50017-ca62-402e-9698-017127361a4c,10.1371/journal.pone.0230042,str
+c5fa2ddf-768e-4b77-bcfb-efcccf2056bf,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,094bcb83-9bab-4ded-a895-40eb835200f7,01108a9a-9829-43bd-9214-c9b2c540dd16,uuid
+6825e02b-6b1f-4ac5-87fe-c9239b2eda3b,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f37adf44-7d64-4405-9cad-aace52c81ff8,Anna Ferrarotti,str
+3afd12bc-db63-4ebc-8da6-675892eec6da,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f37adf44-7d64-4405-9cad-aace52c81ff8,Sara Baldoni,str
+f2c716f2-b71e-4c2a-b29a-e55ec747b325,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f37adf44-7d64-4405-9cad-aace52c81ff8,Marco Carli,str
+8b2c14d3-21ce-4898-aed8-72d475f965a0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,f37adf44-7d64-4405-9cad-aace52c81ff8,Federica Battisti,str
+c02942be-675c-4ffc-98c6-57b643a2796f,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,89db6b7d-1b35-4018-9383-928d0069a6ab,Yan Feng,str
+c9a7fe1f-672a-47db-8f13-86e2e61a3a84,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,89db6b7d-1b35-4018-9383-928d0069a6ab,Dorine C. Duives,str
+b9d98bf1-801a-48bc-a56c-5d3a17450341,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,89db6b7d-1b35-4018-9383-928d0069a6ab,Serge P. Hoogendoorn,str
+209d8390-6050-4f9c-b41d-ee214cdfd998,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Dennis Dietz,str
+666ec8c8-3ece-449e-a885-58672f314934,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Fabian Berger,str
+542a6df1-e8fe-48a6-8e46-6796eef94f39,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Changkun Ou,str
+94162fbd-71be-45fa-9417-a23144a568db,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Francesco Chiossi,str
+b4bbaee2-769a-43e6-b58a-b375220a5458,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Giancarlo Graeber,str
+d319e1b7-98b7-4042-aeb4-13ff37e790a0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Andreas Martin Butz,str
+1677f650-b1bc-4d24-8db0-59317353a92e,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,8d417e7e-d378-4bc9-aced-779d87d7e131,Matthias Hoppe,str
+bb72bdc5-3a19-47f6-a9b3-b4145fb26057,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,8d417e7e-d378-4bc9-aced-779d87d7e131,10.1145/3756884.3766021,str
+3dae7056-e451-4ff0-8a8c-5dcb1ebe9d61,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,a951b178-2305-4a4b-8e24-44cc9b179331,bb72bdc5-3a19-47f6-a9b3-b4145fb26057,uuid
+44703797-b0a6-4d58-a269-c40184b427ff,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Yoon Jae Cho,str
+2d6361b1-6d59-4c78-8da4-0cbf65568da0,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Jung Yon Yum,str
+461d0bf8-2b0e-47b3-a659-f8c1e08f989a,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Kwanguk Kim,str
+066a4a9a-fee6-422a-b2d6-f6829ce08dfe,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Bokyoung Shin,str
+835aacb0-12a9-4387-9693-f0a9d9cd9679,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Hyojung Eom,str
+901687e2-7b74-428f-aeed-3d92ff17d1a9,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Yeon-ju Hong,str
+8169ed5b-8952-4f75-8f18-460b0bac5c6e,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Jiwoong Heo,str
+570efd56-7f66-485a-a17c-d9b3a659dfe3,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Jae-jin Kim,str
+84a47dbf-fa08-4601-8fe6-dbf78c10ac2c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Hye Sun Lee,str
+4bfaf082-38c3-467f-9530-9135d834fe02,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,586a2969-6730-4eed-b103-afe123cde182,Eunjoo Kim,str
+5e6864d6-4f3f-47e0-b3b0-b77e244454c9,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,586a2969-6730-4eed-b103-afe123cde182,10.3389/fnhum.2022.943478,str
+00416356-e16c-45fd-8b3e-2f1d5354894a,8f9dc95b-c4d3-4500-9a6c-9ddc63cdecf9,aReplacement,a45cfbfc-4466-4d50-85d3-b08e4f9e653e,5e6864d6-4f3f-47e0-b3b0-b77e244454c9,uuid
+20eff7f5-69a2-429d-b042-6aba6e94de28,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,71f84833-d6d5-4dba-89cf-14f4d32fa291,Jiawei Chen,str
+8fc59661-76fb-4b0e-8c5c-4114b7567756,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,71f84833-d6d5-4dba-89cf-14f4d32fa291,Vedika P. Basavatia,str
+89879656-5379-4fce-8732-8fa44da2020c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,71f84833-d6d5-4dba-89cf-14f4d32fa291,Kimberly T. Kwei,str
+6d7d0cd0-baa3-452f-ac14-62c66f37e58c,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,71f84833-d6d5-4dba-89cf-14f4d32fa291,Sunil K. Agrawal,str
+d5b8eb9a-ef55-4de8-b268-9d0dcdff4dca,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,378f43e8-ff14-4442-af8b-db40357e14de,Adi Lustig,str
+397109f1-4e75-41cd-8886-cda2a2ecd932,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,378f43e8-ff14-4442-af8b-db40357e14de,Meytal Wilf,str
+7f06c505-5359-45c2-bafb-fde26066f5de,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,378f43e8-ff14-4442-af8b-db40357e14de,Israel Dudkiewicz,str
+bb28942b-d03a-45a9-8658-2a14a1dec249,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,378f43e8-ff14-4442-af8b-db40357e14de,Meir Plotnik,str
+32e4204e-7233-4253-82fb-db69180b0862,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,545adaa8-f14a-4647-b2eb-4c7dd33c5bcd,Alice Guth,str
+76941d3c-4192-459c-abfb-29545a741942,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,545adaa8-f14a-4647-b2eb-4c7dd33c5bcd,Jessica J. Good,str
+4f9cb620-8ced-431d-95bc-a7ee14dd3537,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,545adaa8-f14a-4647-b2eb-4c7dd33c5bcd,Eugy Han,str
+fb7f7ce0-df54-48f0-9460-fa8d055485c8,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,545adaa8-f14a-4647-b2eb-4c7dd33c5bcd,Jeremy Bailenson,str
+6aa338d6-5f9c-48d4-a056-a54baffd0f93,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,545adaa8-f14a-4647-b2eb-4c7dd33c5bcd,Tabitha C. Peck,str
+da5faa91-653b-4e2c-b0e4-0eb7606cba6d,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,7e2b9e40-2ba7-426f-bcf1-f0d80b2529e4,10.1109/vr55154.2023.00056,str
+041f3666-de72-495e-a9ad-a5cb68028a81,a8aecffd-c667-46e3-8f4f-ad3a642d31fe,theDOI,0bb00cc7-b701-4fda-b737-df1c1e6f5bd4,10.1162/pres_a_00432,str
+58215eb0-85ee-4cdf-9a4b-670b46084302,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a66de988-e5a7-48a2-b4e9-bb445e778d8e,Samuel Huron,str
+f695b9da-1fbf-4a35-b06a-0285d2a63424,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a66de988-e5a7-48a2-b4e9-bb445e778d8e,Eric Lecolinet,str
+d835d939-0c9e-4335-a204-3997ef901422,b6d0e1e4-7472-47df-935d-ecdecef92345,anAuthor,a66de988-e5a7-48a2-b4e9-bb445e778d8e,Jan Gugenheimer,str
