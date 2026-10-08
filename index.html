@@ -25,16 +25,12 @@ body{
 header{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:14px; flex-wrap:wrap}
 h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px}
 .sub{color:var(--muted); font-size:13px; margin:0}
-.detail-toggle{
-  background:none; border:none; padding:0; margin-left:6px; font:inherit; font-size:12px;
-  color:var(--tag); text-decoration:underline; text-underline-offset:2px; cursor:pointer;
-}
-.sub-detail{
-  margin-top:10px; padding:12px 14px; border:1px solid var(--line); border-radius:6px;
-  background:var(--panel); font-size:12.5px; max-width:640px;
-}
-.sub-detail dt{font-weight:700; margin-top:8px}
-.sub-detail dt:first-child{margin-top:0}
+#sub-detail{font-size:13px; color:var(--fg); max-width:640px; margin-top:4px}
+#sub-detail p{margin:6px 0 0}
+#sub-detail ul{margin:6px 0 0; padding-left:20px}
+#sub-detail li{margin:4px 0}
+#sub-detail a{color:var(--tag); text-decoration:underline; text-underline-offset:2px}
+#sub-detail .scope-contact{font-size:11px; font-style:italic; color:var(--muted); margin:12px 0 0}
 .sub-detail dd{margin:2px 0 0; color:var(--fg)}
 
 .toolbar{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap}
@@ -55,7 +51,7 @@ h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px
 .btn:hover{filter:brightness(0.97)}
 .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 
-.table-scroll{overflow-x:auto; border:1px solid var(--line); background:var(--panel); border-radius:8px; max-height:80vh; overflow-y:auto}
+.table-scroll{overflow-x:auto; border:1px solid var(--line); background:var(--panel); border-radius:8px}
 table{border-collapse:collapse; width:max-content; min-width:100%; font-size:13px; white-space:nowrap}
 th,td{border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top}
 th{font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:var(--panel); position:sticky; top:0; z-index:1; min-width:100px; white-space:nowrap}
@@ -128,11 +124,24 @@ footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
 .eg-solo .crumb{display:flex; align-items:center; gap:7px; margin-top:4px; padding-left:14px}
 .eg-solo .crumb .mid{flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11.5px; color:var(--muted)}
 .dd-footer{padding:8px 12px; font-size:11.5px; text-decoration:underline; color:var(--fg); cursor:pointer; border-top:1px solid var(--line)}
+.dd-section-label{padding:6px 12px 2px; font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); border-top:1px solid var(--line)}
 .dd-empty{padding:14px 12px; font-size:12px; color:var(--muted)}
+
+/* ---- full results page: same row language as the dropdown (.eg etc.),
+   just laid out in the block the table normally occupies ---- */
+.results-page{border:1px solid var(--line); background:var(--panel); border-radius:8px}
+.results-header{
+  display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+  padding:12px 14px; border-bottom:1px solid var(--line); flex-wrap:wrap;
+}
+.results-header h2{font-family:"Vollkorn",serif; font-size:16px; margin:0; font-weight:700}
+.results-back{background:none; border:none; padding:0; font:inherit; font-size:12.5px; color:var(--tag); text-decoration:underline; text-underline-offset:2px; cursor:pointer}
+.results-list .eg, .results-list .eg-solo{border-bottom:1px solid var(--line)}
+.results-list .eg:last-child, .results-list .eg-solo:last-child{border-bottom:none}
 
 /* ---- layout + paper detail panel (option C: permanent split, table stays usable) ---- */
 .layout{display:flex; gap:14px; align-items:flex-start}
-.layout .table-scroll{flex:1 1 auto; min-width:0}
+.layout .table-scroll, .layout .results-page{flex:1 1 auto; min-width:0}
 .col-entity{cursor:pointer}
 .col-entity:hover{text-decoration:underline}
 .detail-panel{
@@ -151,10 +160,8 @@ footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
   <header>
     <div>
       <h1>Motion-Tracking Measures in XR-Based Experimental Psychology</h1>
-      <p class="sub">A public, editable literature review of motion-tracking studies in VR/AR &mdash; open data, open contributions.
-        <button class="detail-toggle" id="detail-toggle" aria-expanded="false">What counts as "in scope"?</button>
-      </p>
-      <div class="sub-detail" id="sub-detail" hidden></div>
+      <p class="sub">A public, editable literature review of motion-tracking studies in VR/AR &mdash; open data, open contributions.</p>
+      <div id="sub-detail"></div>
     </div>
   </header>
 
@@ -175,9 +182,10 @@ footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
   <p class="paper-count" id="paper-count"></p>
 
   <div class="layout">
-    <div class="table-scroll">
+    <div class="table-scroll" id="table-scroll">
       <table id="review-table"><tr><td style="padding:20px">Loading data/statements.csv&hellip;</td></tr></table>
     </div>
+    <div class="results-page" id="results-page" hidden></div>
     <div class="detail-panel" id="detail-panel" hidden></div>
   </div>
   <p class="status" id="status"></p>
@@ -251,6 +259,8 @@ const expanded = new Set(["Bibliography", "Linkage"]);
 let currentPapers = [];
 let paperEntities = new Set(); // populated in main(); used by search to filter to papers only
 let entityNames = {};          // entity -> theName, for ANY entity (papers and schema items alike)
+let jumpableFields = new Map(); // schema-item entity -> attribute_name, for ones with a real column to jump to
+let exactUnits = [];            // {entity, attribute_name, text}, built in main() -- see EXACT_EXCLUDE there
 
 function render() {
   renderTable(currentPapers);
@@ -287,6 +297,27 @@ async function main() {
     rows.filter(r => r.attribute === A_COMPONENT && r.value === RESEARCH_PAPER).map(r => r.entity)
   );
   rows.forEach(r => { if (r.attribute_name === "theName") entityNames[r.entity] = r.value; });
+  // schema items (components/attributes) whose own theName IS the attribute_name
+  // string (e.g. "aMotionFeature") and that attribute_name has a real chip to
+  // jump to -- bib fields like theDOI/anAuthor have no chip, so stay excluded
+  // from search exactly as before (nowhere to click through to).
+  rows.forEach(r => {
+    if (r.attribute_name === "theName" && FIELD_TO_CHIP[r.value]) jumpableFields.set(r.entity, r.value);
+  });
+
+  // exact-match index: every string-valued field on a paper or jumpable
+  // field entity, including bib fields (author, venue, DOI, ...) that the
+  // semantic corpus skips -- this needs no model, so it works immediately,
+  // before/even if the embeddings ever finish loading. A jumpable field's
+  // own theName (e.g. literal string "aMotionFeature") is skipped -- it's
+  // a raw key, not something anyone would type to find it.
+  const EXACT_EXCLUDE = new Set(["theProvenance", "anErratum", "thePDFLocation"]);
+  rows.forEach(r => {
+    if (r.value_type !== "str" || EXACT_EXCLUDE.has(r.attribute_name)) return;
+    if (jumpableFields.has(r.entity) && r.attribute_name === "theName") return;
+    if (!paperEntities.has(r.entity) && !jumpableFields.has(r.entity)) return;
+    exactUnits.push({ entity: r.entity, attribute_name: r.attribute_name, text: r.value });
+  });
 
   // pivot: entity -> attribute_name -> [values]
   const byEntity = {};
@@ -313,18 +344,23 @@ async function main() {
 // final inclusion-criteria text from the paper itself (Mannan & Miller 2026) --
 // not pulled from statements.csv, which only carries draft/internal intentions
 const SCOPE_CRITERIA = [
-  { name: "Construct", text: "Does this record report an empirical study that analyzes psychological data from human participants, whether newly collected or from a previously collected dataset?" },
-  { name: "Apparatus", text: "Were the participants' own body movements tracked by an extended-reality (XR) system while they were in a virtual or augmented environment?" },
-  { name: "Linkage", text: "Were measures derived from the participants' tracked movement quantitatively related to a psychological or social construct in the domain of affect, behavior or cognition?" },
+  "Reports an empirical study that analyzes psychological data from human participants",
+  "Tracked participants' body motions with an XR system while in a virtual environment",
+  "Related the measures built from the tracked body motion to a construct in affect, behavior, or cognition",
 ];
+
+const CONTACT_EMAIL = "mmiller30@illinoistech.edu";
+const mailto = (subject) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
 
 function renderScopeDetail() {
   const el = document.getElementById("sub-detail");
-  let html = "<dl>";
-  SCOPE_CRITERIA.forEach(({ name, text }) => {
-    html += `<dt>${esc(name)}</dt><dd>${esc(text)}</dd>`;
-  });
-  html += "</dl>";
+  let html = "<p>A review of research that:</p><ul>";
+  SCOPE_CRITERIA.forEach(c => { html += `<li>${esc(c)}</li>`; });
+  html += "</ul>";
+  html += `<p class="scope-contact">Email me if your interest overlaps and any of (1) `
+    + `<a href="${mailto("Alternative inclusion criteria for the Motion & Meaning review")}">you want to add your own criteria as an alternative view</a>, `
+    + `(2) <a href="${mailto("Correction request for the Motion & Meaning review")}">you'd want to request a correction to the data as an author or reader</a>, `
+    + `or (3) <a href="${mailto("New paper submission for the Motion & Meaning review")}">add a research work by you, or by others</a>.</p>`;
   el.innerHTML = html;
 }
 
@@ -425,8 +461,17 @@ function renderDetailPanel(entity) {
 }
 
 function handleHashChange() {
-  const m = location.hash.match(/^#paper\/(.+)$/);
-  renderDetailPanel(m ? decodeURIComponent(m[1]) : null);
+  const searchMatch = location.hash.match(/^#search\/(.+)$/);
+  const paperMatch = location.hash.match(/^#paper\/(.+)$/);
+  if (searchMatch) {
+    const q = decodeURIComponent(searchMatch[1]);
+    omnibarEl.value = q;
+    renderDetailPanel(null);
+    showResultsPage(q);
+  } else {
+    hideResultsPage();
+    renderDetailPanel(paperMatch ? decodeURIComponent(paperMatch[1]) : null);
+  }
 }
 window.addEventListener("hashchange", handleHashChange);
 
@@ -434,18 +479,20 @@ window.addEventListener("hashchange", handleHashChange);
 // Real search: Transformers.js embeds the query live in the browser;
 // corpus embeddings are precomputed by the Python pipeline and fetched
 // from data/embeddings.json (generated, not committed -- see .gitignore).
-// No relevance cutoff by design: every query returns its top 8 units,
-// however weak, and the viewer is trusted to judge low scores themselves.
+// No relevance cutoff by design: the dropdown previews the top 8 entities,
+// the full results page (#search/<query>) ranks every entity, however weak
+// the score, and the viewer is trusted to judge low scores themselves.
 // Quote-syntax exact-text mode is deliberately not built yet.
-// Schema-item hits (components/attributes, not papers) are filtered out
-// of results for now -- the "jump to column" interaction they need
-// isn't built yet, and showing them with nowhere to click would be worse
-// than not showing them.
+// Schema-item hits (components/attributes) appear only when they have a
+// real chip to jump to (jumpableFields) -- bib fields like theDOI/anAuthor
+// have no chip to land on, so stay excluded, same reasoning as before.
 // ============================================================
 
 let searchReady = false;
 let embedQuery = null;   // async (text) -> number[384], set once the model loads
-let corpusUnits = [];    // [{entity, attribute_name, text, vector}], papers only
+let corpusUnits = [];    // [{entity, attribute_name, text, vector}], papers + jumpable fields
+let resolveSearchReady;
+const searchReadyPromise = new Promise(res => { resolveSearchReady = res; });
 
 function cosineSim(a, b) {
   let dot = 0, na = 0, nb = 0;
@@ -528,7 +575,7 @@ async function initSearch() {
     const allUnits = manifest.units.map((u, i) => ({
       ...u, vector: vectorBytes.subarray(i * dim, (i + 1) * dim),
     }));
-    corpusUnits = allUnits.filter(u => paperEntities.has(u.entity));
+    corpusUnits = allUnits.filter(u => paperEntities.has(u.entity) || jumpableFields.has(u.entity));
     setOmniProgress(100);
 
     searchReady = true;
@@ -536,6 +583,7 @@ async function initSearch() {
     omnibarEl.classList.remove("loading");
     document.getElementById("omni-progress").hidden = true;
     omnibarEl.placeholder = "Search by title, author, or topic…";
+    resolveSearchReady();
   } catch (err) {
     omnibarEl.classList.remove("loading");
     document.getElementById("omni-progress").hidden = true;
@@ -554,65 +602,207 @@ function fieldLabel(attr) {
 
 // mirrors the Python grouping exactly: theName never gets a redundant
 // subline since the header already shows it; single-hit+name -> header
-// only; single-hit+non-name -> snippet-leads "solo" layout.
+// only; single-hit+non-name -> snippet-leads "solo" layout. Field (schema-
+// item) groups always have exactly one hit (their theIntention unit) and
+// are tagged "Column" instead of "Paper" so the click target is obvious.
 function buildGroup(entity, hits) {
-  const title = entityNames[entity] || "(untitled)";
+  const isField = jumpableFields.has(entity);
+  const kind = isField ? "Column" : "Paper";
+  const title = isField ? (FIELD_LABELS[jumpableFields.get(entity)] || jumpableFields.get(entity))
+                         : (entityNames[entity] || "(untitled)");
+  if (isField) {
+    return { entity, title, kind, solo: { field: "Definition", snip: hits[0].text } };
+  }
   if (hits.length === 1 && hits[0].attribute_name === "theName") {
-    return { entity, title, hits: [] };
+    return { entity, title, kind, hits: [] };
   }
   if (hits.length === 1) {
-    return { entity, title, solo: { field: fieldLabel(hits[0].attribute_name), snip: hits[0].text } };
+    return { entity, title, kind, solo: { field: fieldLabel(hits[0].attribute_name), snip: hits[0].text } };
   }
   const nonNameHits = hits.filter(h => h.attribute_name !== "theName");
-  return { entity, title, hits: nonNameHits.map(h => ({ field: fieldLabel(h.attribute_name), snip: h.text })) };
+  return { entity, title, kind, hits: nonNameHits.map(h => ({ field: fieldLabel(h.attribute_name), snip: h.text })) };
 }
 
-async function runSearch(q) {
+// scores the whole corpus against q and groups by entity, ranked by each
+// entity's best-scoring unit -- no cutoff, every entity that has at least
+// one unit appears. Shared by the dropdown preview (sliced to 8) and the
+// full results page (shown in full).
+async function searchGroups(q) {
   const qVec = await embedQuery(q);
-  const scored = corpusUnits
-    .map(u => ({ ...u, score: cosineSim(u.vector, qVec) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 8);
-
   const byEntity = new Map();
-  for (const u of scored) {
+  for (const u of corpusUnits) {
+    const score = cosineSim(u.vector, qVec);
+    if (!byEntity.has(u.entity)) byEntity.set(u.entity, []);
+    byEntity.get(u.entity).push({ ...u, score });
+  }
+  return [...byEntity.entries()]
+    .map(([entity, hits]) => {
+      hits.sort((a, b) => b.score - a.score);
+      return { entity, hits: hits.slice(0, 3), maxScore: hits[0].score };
+    })
+    .sort((a, b) => b.maxScore - a.maxScore)
+    .map(({ entity, hits }) => buildGroup(entity, hits));
+}
+
+// dropdown preview only: ranks the top-`limit` individual CELLS from a
+// pre-scored unit list (not top-`limit` papers), then collapses those into
+// however many distinct entities that turns out to be, each ordered by its
+// own best (max) cell -- a paper with several strong hits can fill
+// multiple slots, so fewer than `limit` entities may show. Deliberately
+// different from searchGroups'/exactGroups' per-entity ranking, which the
+// full results page uses instead.
+function topCellsGroups(scoredUnits, limit) {
+  const top = scoredUnits.slice().sort((a, b) => b.score - a.score).slice(0, limit);
+  const byEntity = new Map();
+  for (const u of top) {
     if (!byEntity.has(u.entity)) byEntity.set(u.entity, []);
     byEntity.get(u.entity).push(u);
   }
-  const groups = [...byEntity.entries()]
+  return [...byEntity.entries()]
     .map(([entity, hits]) => ({ entity, hits, maxScore: Math.max(...hits.map(h => h.score)) }))
     .sort((a, b) => b.maxScore - a.maxScore)
     .map(({ entity, hits }) => buildGroup(entity, hits));
-
-  renderDropdown(groups);
 }
 
-function renderDropdown(groups) {
-  const el = document.getElementById("dropdown");
-  if (!groups.length) { el.innerHTML = '<div class="dd-empty">No matches.</div>'; el.hidden = false; return; }
-  let html = "";
-  groups.forEach((g, i) => {
-    if (g.solo) {
-      html += `<div class="eg eg-solo" data-entity="${esc(g.entity)}">`
-        + `<div class="lead">&ldquo;${esc(g.solo.snip)}&rdquo;</div>`
-        + `<div class="crumb"><span class="tagchip">${esc(g.solo.field)}</span>`
-        + `<span class="mid">${esc(g.title)}</span><span class="tagchip">Paper</span></div></div>`;
-    } else {
-      html += `<div class="eg" data-entity="${esc(g.entity)}">`
-        + `<div class="eg-head"><span class="name">${esc(g.title)}</span><span class="tagchip">Paper</span></div>`;
-      g.hits.forEach((h, j) => {
-        if (j > 0) html += '<hr class="attr-divider">';
-        html += `<div class="eg-hit"><span class="tagchip">${esc(h.field)}</span><span class="snip">&ldquo;${esc(h.snip)}&rdquo;</span></div>`;
-      });
-      html += "</div>";
-    }
-    if (i < groups.length - 1) html += '<hr class="entity-divider">';
+function scoreSemanticUnits(qVec) {
+  return corpusUnits.map(u => ({ ...u, score: cosineSim(u.vector, qVec) }));
+}
+
+// match concentration: needle length / field length, so an exact whole-
+// field match (query equals an author's full name) outranks the same
+// needle buried in a long abstract. needle.length <= text.length always,
+// since text.includes(needle) is required to appear in the list at all.
+function scoreExactUnits(needle) {
+  const n = needle.toLowerCase();
+  if (!n) return [];
+  return exactUnits
+    .filter(u => u.text.toLowerCase().includes(n))
+    .map(u => ({ ...u, score: n.length / u.text.length }));
+}
+
+// ---- exact-match mode: a query starting with a literal " switches to
+// plain case-insensitive substring matching over exactUnits (every string
+// field, including bib fields the semantic corpus skips). No model needed.
+function isExactQuery(q) { return q.trim().startsWith('"'); }
+function exactNeedle(q) { return q.trim().slice(1).replace(/"$/, "").trim(); }
+
+function exactGroups(needle) {
+  const n = needle.toLowerCase();
+  if (!n) return [];
+  const byEntity = new Map();
+  for (const u of exactUnits) {
+    if (!u.text.toLowerCase().includes(n)) continue;
+    if (!byEntity.has(u.entity)) byEntity.set(u.entity, []);
+    byEntity.get(u.entity).push(u);
+  }
+  return [...byEntity.entries()]
+    .map(([entity, hits]) => {
+      // theName first (so a title-only match still gets buildGroup's
+      // header-only shortcut), then cap at 3 like the semantic path
+      hits.sort((a, b) => (a.attribute_name === "theName" ? -1 : 0) - (b.attribute_name === "theName" ? -1 : 0));
+      return [entity, hits.slice(0, 3)];
+    })
+    .sort((a, b) => {
+      const aTitle = a[1].some(h => h.attribute_name === "theName");
+      const bTitle = b[1].some(h => h.attribute_name === "theName");
+      if (aTitle !== bTitle) return aTitle ? -1 : 1;
+      if (a[1].length !== b[1].length) return b[1].length - a[1].length;
+      return (entityNames[a[0]] || "").localeCompare(entityNames[b[0]] || "");
+    })
+    .map(([entity, hits]) => buildGroup(entity, hits));
+}
+
+function rowHtml(g) {
+  if (g.solo) {
+    return `<div class="eg eg-solo" data-entity="${esc(g.entity)}" data-kind="${esc(g.kind)}">`
+      + `<div class="lead">&ldquo;${esc(g.solo.snip)}&rdquo;</div>`
+      + `<div class="crumb"><span class="tagchip">${esc(g.solo.field)}</span>`
+      + `<span class="mid">${esc(g.title)}</span><span class="tagchip">${esc(g.kind)}</span></div></div>`;
+  }
+  let html = `<div class="eg" data-entity="${esc(g.entity)}" data-kind="${esc(g.kind)}">`
+    + `<div class="eg-head"><span class="name">${esc(g.title)}</span><span class="tagchip">${esc(g.kind)}</span></div>`;
+  g.hits.forEach((h, j) => {
+    if (j > 0) html += '<hr class="attr-divider">';
+    html += `<div class="eg-hit"><span class="tagchip">${esc(h.field)}</span><span class="snip">&ldquo;${esc(h.snip)}&rdquo;</span></div>`;
   });
-  html += `<div class="dd-footer">See all results &rarr; (results page not built yet)</div>`;
+  return html + "</div>";
+}
+
+// context "dropdown": always close the dropdown explicitly, since its
+// visibility isn't tied to the hash. context "results": a Paper click sets
+// #paper/<entity> itself, which already hides the results page via
+// handleHashChange -- clearing the hash again afterward would wipe that
+// out, so only a Column click (which never touches the hash) needs it done
+// explicitly here.
+function bindRowClicks(el, context) {
+  el.querySelectorAll("[data-entity]").forEach(row => {
+    row.addEventListener("click", () => {
+      if (row.dataset.kind === "Column") {
+        jumpToColumn(row.dataset.entity);
+        if (context === "dropdown") closeDropdown();
+        else location.hash = "";
+      } else {
+        openDetail(row.dataset.entity);
+        if (context === "dropdown") closeDropdown();
+      }
+    });
+  });
+}
+
+// Dropdown preview always blends both match types -- 8 cells of whichever
+// type the query emphasizes (exact if quoted, semantic otherwise), plus 2
+// cells of the other type as a secondary section. Quoting only swaps which
+// type gets the 8 slots; it doesn't turn the other type off.
+async function runSearch(q) {
+  const quoted = isExactQuery(q);
+  const needle = quoted ? exactNeedle(q) : q.trim();
+
+  const exactScored = scoreExactUnits(needle);
+  let semanticScored = [];
+  if (needle && searchReady) {
+    semanticScored = scoreSemanticUnits(await embedQuery(needle));
+  }
+
+  const primaryScored = quoted ? exactScored : semanticScored;
+  const secondaryScoredAll = quoted ? semanticScored : exactScored;
+
+  const primaryGroups = topCellsGroups(primaryScored, 8);
+  const used = new Set(primaryGroups.map(g => g.entity));
+  const secondaryGroups = topCellsGroups(secondaryScoredAll.filter(u => !used.has(u.entity)), 2);
+
+  renderDropdown({
+    primaryGroups, secondaryGroups,
+    secondaryLabel: quoted ? "Related" : "Exact matches",
+    q,
+  });
+}
+
+function renderDropdown(data) {
+  const el = document.getElementById("dropdown");
+  if (!data.primaryGroups.length && !data.secondaryGroups.length) {
+    el.innerHTML = '<div class="dd-empty">No matches.</div>'; el.hidden = false; return;
+  }
+  let html = "";
+  data.primaryGroups.forEach((g, i) => {
+    html += rowHtml(g);
+    if (i < data.primaryGroups.length - 1) html += '<hr class="entity-divider">';
+  });
+  if (data.secondaryGroups.length) {
+    html += `<div class="dd-section-label">${esc(data.secondaryLabel)}</div>`;
+    data.secondaryGroups.forEach((g, i) => {
+      html += rowHtml(g);
+      if (i < data.secondaryGroups.length - 1) html += '<hr class="entity-divider">';
+    });
+  }
+  // the full results page (#search/<query>) commits to one ranking method
+  // uncapped -- not this preview's blended top-8+2 pool -- so no count is
+  // shown here to avoid implying a number that wouldn't match
+  html += `<div class="dd-footer" id="dd-see-all">See all results &rarr;</div>`;
   el.innerHTML = html;
   el.hidden = false;
-  el.querySelectorAll(".eg[data-entity]").forEach(row => {
-    row.addEventListener("click", () => { openDetail(row.dataset.entity); closeDropdown(); });
+  bindRowClicks(el, "dropdown");
+  document.getElementById("dd-see-all").addEventListener("click", () => {
+    location.hash = "search/" + encodeURIComponent(data.q);
   });
 }
 
@@ -620,6 +810,74 @@ function closeDropdown() {
   const el = document.getElementById("dropdown");
   el.hidden = true;
   el.innerHTML = "";
+}
+
+// ============================================================
+// Full results page: replaces the table in place, ranks every entity in
+// the corpus (no cutoff), reached via the dropdown's "see all" link or
+// pressing Enter in the omnibar. #search/<query> is deep-linkable.
+// ============================================================
+
+async function showResultsPage(q) {
+  closeDropdown();
+  document.getElementById("table-scroll").hidden = true;
+  const el = document.getElementById("results-page");
+  el.hidden = false;
+
+  // the results page commits fully to one mode or the other -- a quoted
+  // query here means exact results only, no semantic blending, however
+  // many (or few) hits that turns out to be. Needs no model, no waiting.
+  if (isExactQuery(q)) {
+    const groups = exactGroups(exactNeedle(q));
+    renderResultsPage(exactNeedle(q), groups, "exact");
+    return;
+  }
+
+  el.innerHTML = `<div class="results-header"><h2>Searching&hellip;</h2></div>`;
+  await searchReadyPromise;
+  if (location.hash !== "#search/" + encodeURIComponent(q)) return; // hash moved on while awaiting
+  const groups = await searchGroups(q);
+  renderResultsPage(q, groups, "semantic");
+}
+
+function renderResultsPage(q, groups, mode) {
+  const el = document.getElementById("results-page");
+  const label = mode === "exact" ? "exact result" : "result";
+  let html = `<div class="results-header">`
+    + `<h2>${groups.length} ${label}${groups.length === 1 ? "" : "s"} for &ldquo;${esc(q)}&rdquo;</h2>`
+    + `<button class="results-back" id="results-back">&larr; Back to table</button></div>`;
+  html += '<div class="results-list">';
+  if (!groups.length) {
+    html += '<div class="dd-empty">No matches.</div>';
+  } else {
+    groups.forEach(g => { html += rowHtml(g); });
+  }
+  html += "</div>";
+  el.innerHTML = html;
+  bindRowClicks(el, "results");
+  document.getElementById("results-back").addEventListener("click", () => { location.hash = ""; });
+}
+
+function hideResultsPage() {
+  document.getElementById("table-scroll").hidden = false;
+  const el = document.getElementById("results-page");
+  el.hidden = true;
+  el.innerHTML = "";
+}
+
+// expands the chip containing `attr` and scrolls its column into view --
+// used when a search hit is a schema item (a column/field) rather than a paper
+function jumpToColumn(entity) {
+  const attr = jumpableFields.get(entity);
+  const chip = FIELD_TO_CHIP[attr];
+  if (!chip) return;
+  expanded.add(chip);
+  render();
+  const label = FIELD_LABELS[attr] || attr;
+  requestAnimationFrame(() => {
+    const th = Array.from(document.querySelectorAll("#review-table th")).find(t => t.textContent.trim() === label);
+    if (th) th.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  });
 }
 
 const omnibarEl = document.getElementById("omnibar");
@@ -631,17 +889,15 @@ omnibarEl.addEventListener("input", () => {
   clearTimeout(searchDebounceTimer);
   searchDebounceTimer = setTimeout(() => runSearch(q), 250);
 });
-omnibarEl.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDropdown(); omnibarEl.blur(); } });
+omnibarEl.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { closeDropdown(); omnibarEl.blur(); }
+  if (e.key === "Enter") {
+    const q = omnibarEl.value.trim();
+    if (q && searchReady) location.hash = "search/" + encodeURIComponent(q);
+  }
+});
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".omni-wrap")) closeDropdown();
-});
-
-document.getElementById("detail-toggle").addEventListener("click", () => {
-  const detail = document.getElementById("sub-detail");
-  const btn = document.getElementById("detail-toggle");
-  const show = detail.hidden;
-  detail.hidden = !show;
-  btn.setAttribute("aria-expanded", String(show));
 });
 
 main();
