@@ -33,7 +33,6 @@ h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px
   margin-top:10px; padding:12px 14px; border:1px solid var(--line); border-radius:6px;
   background:var(--panel); font-size:12.5px; max-width:640px;
 }
-.sub-detail .detail-note{color:var(--muted); font-style:italic; margin:0 0 10px; font-size:11.5px}
 .sub-detail dt{font-weight:700; margin-top:8px}
 .sub-detail dt:first-child{margin-top:0}
 .sub-detail dd{margin:2px 0 0; color:var(--fg)}
@@ -59,15 +58,21 @@ h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px
 .table-scroll{overflow-x:auto; border:1px solid var(--line); background:var(--panel); border-radius:8px; max-height:80vh; overflow-y:auto}
 table{border-collapse:collapse; width:max-content; min-width:100%; font-size:13px; white-space:nowrap}
 th,td{border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top}
-th{font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:var(--panel); position:sticky; top:0; z-index:1; min-width:150px; white-space:nowrap}
+th{font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:var(--panel); position:sticky; top:0; z-index:1; min-width:100px; white-space:nowrap}
 /* table-layout:auto (the default) sizes each column from its own content at
-   render time, between a 150px floor (short values still get a presentable
+   render time, between a 100px floor (short values still get a presentable
    landscape block, not a cramped sliver) and a 300px ceiling (beyond that,
    wrap to a second/third line rather than stretching the row wider) */
 td{white-space:normal; max-width:300px}
 td.num,.tag-color{color:var(--tag); font-weight:600}
 
-.col-entity, th.col-entity{position:sticky; left:0; background:var(--panel); z-index:2; font-weight:700; max-width:260px; white-space:normal}
+.col-entity, th.col-entity{
+  position:sticky; left:0; background:var(--panel); z-index:2; font-weight:700;
+  max-width:260px; white-space:normal;
+  /* subtle cast-shadow on the frozen column's trailing edge, signifying it
+     stays put while the rest of the table scrolls underneath it */
+  box-shadow:6px 0 6px -4px rgba(0,0,0,.18);
+}
 th.col-entity{z-index:3}
 .col-entity a{color:var(--fg); text-decoration:none; border-bottom:1px dotted var(--line-strong)}
 .col-entity .meta{display:block; color:var(--muted); font-weight:400; font-size:11.5px; margin-top:2px}
@@ -82,6 +87,7 @@ th.col-entity{z-index:3}
 .chip.header-chip:hover{filter:brightness(1.08)}
 
 .status{font-size:12.5px; color:var(--muted); margin:10px 0 0}
+.paper-count{font-size:13px; font-weight:600; color:var(--fg); margin:0 0 8px}
 footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
 
 /* ---- omnibar dropdown (search isn't wired yet -- see STUB_RESULTS) ---- */
@@ -166,6 +172,8 @@ footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
     </div>
   </div>
 
+  <p class="paper-count" id="paper-count"></p>
+
   <div class="layout">
     <div class="table-scroll">
       <table id="review-table"><tr><td style="padding:20px">Loading data/statements.csv&hellip;</td></tr></table>
@@ -211,15 +219,14 @@ const THE_NAME = "acf5cebb-8d80-45ad-9a1f-a3dd48682ef6";
 const A_COMPONENT = "90c2b9bb-ff6b-4f84-a29b-7b9e8dcfe04a";
 const RESEARCH_PAPER = "efe2d554-61f9-4931-9514-7a3bc2bc0d17";
 
-// default-visible columns (never collapsed to a chip)
-const DEFAULT_COLS = [
-  { name: "anAuthor", label: "Author" },
-  { name: "thePublicationDate", label: "Year" },
-  { name: "theSampleParticipants", label: "Sample / Participants" },
-];
+// default-visible columns (never collapsed to a chip) -- everything else
+// about a paper lives behind a chip now, see CHIP_GROUPS
+const DEFAULT_COLS = [];
 
 // chip groups -- order matters for display
 const CHIP_GROUPS = [
+  { chip: "Bibliography", fields: ["anAuthor", "thePublicationDate"] },
+  { chip: "Participants", fields: ["theSampleParticipants"] },
   { chip: "Construct", fields: ["anABCDomain", "thePsychConstruct"] },
   { chip: "Apparatus", fields: ["theTrackingSetup", "aTrackedSegment", "theSamplingRate"] },
   { chip: "Linkage", fields: ["aMotionFeature", "aTransformationApproach", "theAnalysisMethod"] },
@@ -230,6 +237,8 @@ const FIELD_TO_CHIP = {};
 CHIP_GROUPS.forEach(g => g.fields.forEach(f => FIELD_TO_CHIP[f] = g.chip));
 
 const FIELD_LABELS = {
+  anAuthor: "Author", thePublicationDate: "Year",
+  theSampleParticipants: "Participants",
   anABCDomain: "ABC Domain", thePsychConstruct: "Psychological Construct",
   theTrackingSetup: "Tracking Setup", aTrackedSegment: "Tracked Body Segments",
   theSamplingRate: "Sampling Rate (Hz)", aMotionFeature: "Motion Features",
@@ -237,12 +246,17 @@ const FIELD_LABELS = {
   theDuration: "Experiment Duration", theKeyAnalysis: "Key Analysis",
 };
 
-const expanded = new Set(); // which chips are currently expanded into real columns
+// Bibliography + Linkage open by default -- the rest start collapsed to chips
+const expanded = new Set(["Bibliography", "Linkage"]);
 let currentPapers = [];
 let paperEntities = new Set(); // populated in main(); used by search to filter to papers only
 let entityNames = {};          // entity -> theName, for ANY entity (papers and schema items alike)
 
-function render() { renderTable(currentPapers); }
+function render() {
+  renderTable(currentPapers);
+  document.getElementById("paper-count").textContent =
+    currentPapers.length + (currentPapers.length === 1 ? " paper in review" : " papers in review");
+}
 
 async function main() {
   const statusEl = document.getElementById("status");
@@ -291,32 +305,24 @@ async function main() {
 
   currentPapers = papers;
   render();
-  renderScopeDetail(rows);
+  renderScopeDetail();
   handleHashChange(); // support a deep link straight to #paper/<entity> on initial load
   initSearch(); // fire-and-forget: table is already fully usable, search loads in the background
 }
 
-// pulls the three criteria-cluster components' own theName/theIntention straight out
-// of the CSV -- these are the draft definitions Mark and Rushad still need to review,
-// not final paper-sourced copy, so label it as such rather than presenting it as official
-function renderScopeDetail(rows) {
-  const byEntityName = {};
-  for (const r of rows) {
-    if (r.attribute_name === "theName") byEntityName[r.entity] = r.value;
-  }
-  const wanted = ["Construct", "Apparatus", "Linkage"];
-  const intentionByName = {};
-  for (const r of rows) {
-    if (r.attribute_name !== "theIntention") continue;
-    const name = byEntityName[r.entity];
-    if (wanted.includes(name)) intentionByName[name] = r.value;
-  }
+// final inclusion-criteria text from the paper itself (Mannan & Miller 2026) --
+// not pulled from statements.csv, which only carries draft/internal intentions
+const SCOPE_CRITERIA = [
+  { name: "Construct", text: "Does this record report an empirical study that analyzes psychological data from human participants, whether newly collected or from a previously collected dataset?" },
+  { name: "Apparatus", text: "Were the participants' own body movements tracked by an extended-reality (XR) system while they were in a virtual or augmented environment?" },
+  { name: "Linkage", text: "Were measures derived from the participants' tracked movement quantitatively related to a psychological or social construct in the domain of affect, behavior or cognition?" },
+];
+
+function renderScopeDetail() {
   const el = document.getElementById("sub-detail");
-  if (!wanted.some(n => intentionByName[n])) { el.innerHTML = "<p>(criteria breakdown not available)</p>"; return; }
-  let html = '<p class="detail-note">Draft criteria definitions, pending review &mdash; not yet the official paper text.</p><dl>';
-  wanted.forEach(name => {
-    if (!intentionByName[name]) return;
-    html += `<dt>${esc(name)}</dt><dd>${esc(intentionByName[name])}</dd>`;
+  let html = "<dl>";
+  SCOPE_CRITERIA.forEach(({ name, text }) => {
+    html += `<dt>${esc(name)}</dt><dd>${esc(text)}</dd>`;
   });
   html += "</dl>";
   el.innerHTML = html;
