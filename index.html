@@ -26,7 +26,6 @@ header{display:flex; justify-content:space-between; align-items:flex-end; gap:16
 h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px}
 .sub{color:var(--muted); font-size:13px; margin:0}
 #sub-detail{font-size:13px; color:var(--fg); max-width:640px; margin-top:4px}
-#sub-detail p{margin:6px 0 0}
 #sub-detail ul{margin:6px 0 0; padding-left:20px}
 #sub-detail li{margin:4px 0}
 #sub-detail a{color:var(--tag); text-decoration:underline; text-underline-offset:2px}
@@ -52,7 +51,12 @@ h1{font-family:"Vollkorn",serif; font-weight:700; font-size:24px; margin:0 0 3px
 .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 
 .table-scroll{overflow-x:auto; border:1px solid var(--line); background:var(--panel); border-radius:8px}
-table{border-collapse:collapse; width:max-content; min-width:100%; font-size:13px; white-space:nowrap}
+/* border-collapse:collapse clips box-shadow to the cell's own border edge in
+   every major browser -- that's why the frozen column's shadow never
+   reached the cells beside it. separate+0 spacing has the same visual
+   result for this table (only border-bottom is ever set, so there's
+   nothing to double up or gap) but lets the shadow paint normally. */
+table{border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; font-size:13px; white-space:nowrap}
 th,td{border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top}
 th{font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); background:var(--panel); position:sticky; top:0; z-index:1; min-width:100px; white-space:nowrap}
 /* table-layout:auto (the default) sizes each column from its own content at
@@ -61,6 +65,7 @@ th{font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.
    wrap to a second/third line rather than stretching the row wider) */
 td{white-space:normal; max-width:300px}
 td.num,.tag-color{color:var(--tag); font-weight:600}
+td a, .fvalue a{color:var(--tag); text-decoration:underline; text-underline-offset:2px}
 
 .col-entity, th.col-entity{
   position:sticky; left:0; background:var(--panel); z-index:2; font-weight:700;
@@ -160,7 +165,6 @@ footer{margin-top:18px; font-size:11.5px; color:var(--muted)}
   <header>
     <div>
       <h1>Motion-Tracking Measures in XR-Based Experimental Psychology</h1>
-      <p class="sub">A public, editable literature review of motion-tracking studies in VR/AR &mdash; open data, open contributions.</p>
       <div id="sub-detail"></div>
     </div>
   </header>
@@ -233,7 +237,7 @@ const DEFAULT_COLS = [];
 
 // chip groups -- order matters for display
 const CHIP_GROUPS = [
-  { chip: "Bibliography", fields: ["anAuthor", "thePublicationDate"] },
+  { chip: "Bibliography", fields: ["anAuthor", "thePublicationDate", "theDOI"] },
   { chip: "Participants", fields: ["theSampleParticipants"] },
   { chip: "Construct", fields: ["anABCDomain", "thePsychConstruct"] },
   { chip: "Apparatus", fields: ["theTrackingSetup", "aTrackedSegment", "theSamplingRate"] },
@@ -245,7 +249,7 @@ const FIELD_TO_CHIP = {};
 CHIP_GROUPS.forEach(g => g.fields.forEach(f => FIELD_TO_CHIP[f] = g.chip));
 
 const FIELD_LABELS = {
-  anAuthor: "Author", thePublicationDate: "Year",
+  anAuthor: "Author", thePublicationDate: "Year", theDOI: "DOI",
   theSampleParticipants: "Participants",
   anABCDomain: "ABC Domain", thePsychConstruct: "Psychological Construct",
   theTrackingSetup: "Tracking Setup", aTrackedSegment: "Tracked Body Segments",
@@ -309,14 +313,19 @@ async function main() {
   // field entity, including bib fields (author, venue, DOI, ...) that the
   // semantic corpus skips -- this needs no model, so it works immediately,
   // before/even if the embeddings ever finish loading. A jumpable field's
-  // own theName (e.g. literal string "aMotionFeature") is skipped -- it's
-  // a raw key, not something anyone would type to find it.
+  // own theName row holds its raw key (e.g. "aMotionFeature"), not
+  // something anyone would type -- skip it and index its human-readable
+  // chip label ("Motion Features") instead, so the field is actually
+  // findable by the name a reader would recognize.
   const EXACT_EXCLUDE = new Set(["theProvenance", "anErratum", "thePDFLocation"]);
   rows.forEach(r => {
     if (r.value_type !== "str" || EXACT_EXCLUDE.has(r.attribute_name)) return;
     if (jumpableFields.has(r.entity) && r.attribute_name === "theName") return;
     if (!paperEntities.has(r.entity) && !jumpableFields.has(r.entity)) return;
     exactUnits.push({ entity: r.entity, attribute_name: r.attribute_name, text: r.value });
+  });
+  jumpableFields.forEach((attr, entity) => {
+    exactUnits.push({ entity, attribute_name: "theName", text: FIELD_LABELS[attr] || attr });
   });
 
   // pivot: entity -> attribute_name -> [values]
@@ -354,7 +363,7 @@ const mailto = (subject) => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponen
 
 function renderScopeDetail() {
   const el = document.getElementById("sub-detail");
-  let html = "<p>A review of research that:</p><ul>";
+  let html = '<p class="sub">A review of research that:</p><ul>';
   SCOPE_CRITERIA.forEach(c => { html += `<li>${esc(c)}</li>`; });
   html += "</ul>";
   html += `<p class="scope-contact">Email me if your interest overlaps and any of (1) `
@@ -366,6 +375,16 @@ function renderScopeDetail() {
 
 function esc(s) { return (s ?? "").toString().replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function joinVals(vals) { return vals ? vals.join("; ") : ""; }
+
+// theDOI renders as a real link (bare DOIs resolve fine via doi.org);
+// everything else is plain escaped text, same as before
+function fieldValueHtml(attr, vals) {
+  if (!vals || !vals.length) return "";
+  if (attr === "theDOI") {
+    return vals.map(d => `<a href="https://doi.org/${esc(d)}" target="_blank" rel="noopener">${esc(d)}</a>`).join("; ");
+  }
+  return esc(joinVals(vals));
+}
 
 function renderTable(papers) {
   const el = document.getElementById("review-table");
@@ -400,7 +419,7 @@ function renderTable(papers) {
     tbody += "</td>";
 
     expandedGroups.forEach(g => g.fields.forEach(f => {
-      tbody += `<td>${esc(joinVals(p.fields[f]))}</td>`;
+      tbody += `<td>${fieldValueHtml(f, p.fields[f])}</td>`;
     }));
     tbody += "</tr>";
   }
@@ -451,9 +470,8 @@ function renderDetailPanel(entity) {
     html += `<div class="detail-field"><div class="flabel">${esc(c.label)}</div><div class="fvalue">${esc(v)}</div></div>`;
   });
   CHIP_GROUPS.forEach(g => g.fields.forEach(f => {
-    const v = joinVals(p.fields[f]);
-    if (!v) return;
-    html += `<div class="detail-field"><div class="flabel">${esc(FIELD_LABELS[f] || f)}</div><div class="fvalue">${esc(v)}</div></div>`;
+    if (!p.fields[f] || !p.fields[f].length) return;
+    html += `<div class="detail-field"><div class="flabel">${esc(FIELD_LABELS[f] || f)}</div><div class="fvalue">${fieldValueHtml(f, p.fields[f])}</div></div>`;
   }));
   panelEl.innerHTML = html;
   panelEl.hidden = false;
@@ -611,7 +629,10 @@ function buildGroup(entity, hits) {
   const title = isField ? (FIELD_LABELS[jumpableFields.get(entity)] || jumpableFields.get(entity))
                          : (entityNames[entity] || "(untitled)");
   if (isField) {
-    return { entity, title, kind, solo: { field: "Definition", snip: hits[0].text } };
+    // prefer the richer theIntention description for display even if what
+    // actually matched was just the field's own label (e.g. "Motion Features")
+    const best = hits.find(h => h.attribute_name === "theIntention") || hits[0];
+    return { entity, title, kind, solo: { field: "Definition", snip: best.text } };
   }
   if (hits.length === 1 && hits[0].attribute_name === "theName") {
     return { entity, title, kind, hits: [] };
